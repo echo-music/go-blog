@@ -15,5 +15,5 @@ func main() {
 	middleware.Register(r)
 	router.Register(r)
 
-	log.Fatal(r.Run(fmt.Sprintf(":%s", boot.Cfg.AppPort)))
+	log.Fatal(r.Run(fmt.Sprintf(":%d", boot.Cfg.App.Port)))
 }

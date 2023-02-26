@@ -1,0 +1,14 @@
+[app]
+name = "go_gin"
+port = 8081
+version = "1.0.0"
+
+[mysql]
+type = "mysql"
+link = "root:123456@tcp(localhost:3306)/test"
+charset = "utf8mb4"
+maxIdle = 10
+maxOpen = 100
+maxLifetime = "30s"
+
+
