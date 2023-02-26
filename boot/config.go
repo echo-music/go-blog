@@ -6,8 +6,8 @@ import (
 )
 
 type config struct {
-	App   App
-	Mysql db.Config
+	App   *App
+	Mysql *db.Config
 }
 
 type App struct {
@@ -20,9 +20,15 @@ var Cfg config
 
 func InitConf() {
 
+	//读取配置文件
 	if _, err := toml.DecodeFile("./config/app.toml", &Cfg); err != nil {
 		panic("decode config file err")
 
 	}
+
+	//初始化数据库
+	db.InitDB(Cfg.Mysql)
+
+	//初始化redis
 
 }

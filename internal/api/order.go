@@ -3,6 +3,7 @@ package api
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
+	"go-blog/internal/service"
 	"go-blog/pkg/library/gerror"
 	"net/http"
 )
@@ -24,8 +25,11 @@ func (a *orderApi) Router(r *gin.Engine) {
 }
 
 func (a *orderApi) List(c *gin.Context) {
+
+	list := service.Order.List(c)
 	c.JSON(http.StatusOK, gin.H{
 		"message": "订单列表",
+		"data":    list,
 	})
 }
 
