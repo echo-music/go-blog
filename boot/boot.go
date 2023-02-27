@@ -2,6 +2,7 @@ package boot
 
 import (
 	"github.com/BurntSushi/toml"
+	"github.com/gin-gonic/gin"
 	"go-blog/pkg/library/db"
 )
 
@@ -19,11 +20,12 @@ type App struct {
 var Cfg config
 
 func init() {
+	//设置debug模式
+	gin.SetMode(gin.DebugMode)
 
 	//读取配置文件
 	if _, err := toml.DecodeFile("./config/app.toml", &Cfg); err != nil {
 		panic("decode config file err")
-
 	}
 
 	//初始化数据库
