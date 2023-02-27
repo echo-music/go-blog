@@ -3,12 +3,14 @@ package boot
 import (
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
+	"go-blog/pkg/cache"
 	"go-blog/pkg/db"
 )
 
 type config struct {
-	App   *App
-	Mysql *db.Config
+	App   App
+	Mysql db.Config
+	Redis cache.Config
 }
 
 type App struct {
@@ -29,8 +31,9 @@ func init() {
 	}
 
 	//初始化数据库
-	db.InitDB(Cfg.Mysql)
+	db.Init(Cfg.Mysql)
 
 	//初始化redis
+	//cache.Init(Cfg.Redis)
 
 }
