@@ -44,7 +44,6 @@ func init() {
 	cache.Init(Cfg.Redis)
 
 	//初始化日志
-	fmt.Println(Cfg.Logger)
 	logs.Init(Cfg.Logger)
 
 }
