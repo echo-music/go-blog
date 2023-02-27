@@ -34,6 +34,6 @@ func init() {
 	db.Init(Cfg.Mysql)
 
 	//初始化redis
-	//cache.Init(Cfg.Redis)
+	cache.Init(Cfg.Redis)
 
 }
