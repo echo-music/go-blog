@@ -1,8 +1,8 @@
 package router
 
 import (
+	"github.com/echo-music/go-blog/internal/api"
 	"github.com/gin-gonic/gin"
-	"go-blog/internal/api"
 )
 
 func Register(r *gin.Engine) {

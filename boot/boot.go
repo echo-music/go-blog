@@ -2,9 +2,9 @@ package boot
 
 import (
 	"github.com/BurntSushi/toml"
+	"github.com/echo-music/go-blog/pkg/cache"
+	"github.com/echo-music/go-blog/pkg/db"
 	"github.com/gin-gonic/gin"
-	"go-blog/pkg/cache"
-	"go-blog/pkg/db"
 )
 
 type config struct {

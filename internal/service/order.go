@@ -2,10 +2,10 @@ package service
 
 import (
 	"errors"
+	"github.com/echo-music/go-blog/pkg/db"
+	"github.com/echo-music/go-blog/pkg/gerror"
+	"github.com/echo-music/go-blog/pkg/model"
 	"github.com/gin-gonic/gin"
-	"go-blog/pkg/db"
-	"go-blog/pkg/gerror"
-	"go-blog/pkg/model"
 )
 
 type orderSrv struct {
@@ -36,5 +36,5 @@ func (a *orderSrv) Update(c *gin.Context) {
 		c.Error(err)
 		return
 	}
-	
+
 }

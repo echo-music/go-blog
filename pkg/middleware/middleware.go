@@ -1,10 +1,10 @@
 package middleware
 
 import (
+	"github.com/echo-music/go-blog/pkg/gerror"
+	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"go-blog/pkg/gerror"
-	"go-blog/pkg/response"
 )
 
 func Register(r *gin.Engine) {

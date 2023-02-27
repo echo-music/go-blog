@@ -1,8 +1,8 @@
 package middleware
 
 import (
+	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
-	"go-blog/pkg/response"
 )
 
 // Catch 捕获异常

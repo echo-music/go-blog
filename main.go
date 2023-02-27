@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/echo-music/go-blog/boot"
+	"github.com/echo-music/go-blog/internal/router"
+	"github.com/echo-music/go-blog/pkg/middleware"
 	"github.com/gin-gonic/gin"
-	"go-blog/boot"
-	"go-blog/internal/router"
-	"go-blog/pkg/middleware"
 	"log"
 )
 

@@ -2,10 +2,10 @@ package api
 
 import (
 	"errors"
+	"github.com/echo-music/go-blog/internal/service"
+	"github.com/echo-music/go-blog/pkg/gerror"
+	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
-	"go-blog/internal/service"
-	"go-blog/pkg/gerror"
-	"go-blog/pkg/response"
 )
 
 type orderApi struct {
