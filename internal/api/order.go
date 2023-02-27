@@ -24,9 +24,23 @@ func (a *orderApi) Router(r *gin.Engine) {
 	}
 }
 
+// List
+// PingExample godoc
+// @Summary 订单列表
+// @Schemes
+// @Description do ping
+// @Tags 订单管理
+// @Accept json
+// @Produce json
+// @success	200 {object} response.Response{data=model.OrderListRet} "_"
+// @Router /orders [get]
 func (a *orderApi) List(c *gin.Context) {
 
-	list := service.Order.List(c)
+	list, err := service.Order.List(c)
+	if err != nil {
+		c.Error(err)
+		return
+	}
 
 	response.Success(c, "订单列表", list)
 }

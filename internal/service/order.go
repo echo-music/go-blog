@@ -13,9 +13,9 @@ type orderSrv struct {
 
 var Order orderSrv
 
-func (a *orderSrv) List(c *gin.Context) (orders []*model.Order) {
+func (a *orderSrv) List(c *gin.Context) (orders []*model.Order, err error) {
 
-	db.DB().Model(&model.Order{}).Scan(&orders)
+	err = db.DB().Model(&model.Order{}).Scan(&orders).Error
 	return
 }
 

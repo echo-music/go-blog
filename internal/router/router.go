@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Register(r *gin.Engine) {
+func Init(r *gin.Engine) {
 
 	// order router
 	api.Order.Router(r)

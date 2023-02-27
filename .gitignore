@@ -20,4 +20,5 @@ packed/
 swagger/
 temp/
 .DS_Store
+docs/
 
