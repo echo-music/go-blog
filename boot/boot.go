@@ -21,7 +21,7 @@ type App struct {
 
 var Cfg config
 
-func init() {
+func Init() {
 	//设置debug模式
 	gin.SetMode(gin.DebugMode)
 
