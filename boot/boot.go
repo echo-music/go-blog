@@ -3,12 +3,12 @@ package boot
 import (
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
-	db2 "go-blog/pkg/db"
+	"go-blog/pkg/db"
 )
 
 type config struct {
 	App   *App
-	Mysql *db2.Config
+	Mysql *db.Config
 }
 
 type App struct {
@@ -21,7 +21,7 @@ var Cfg config
 
 func init() {
 	//设置debug模式
-	gin.SetMode(gin.DebugMode)
+	gin.SetMode(gin.ReleaseMode)
 
 	//读取配置文件
 	if _, err := toml.DecodeFile("./config/app.toml", &Cfg); err != nil {
@@ -29,7 +29,7 @@ func init() {
 	}
 
 	//初始化数据库
-	db2.InitDB(Cfg.Mysql)
+	db.InitDB(Cfg.Mysql)
 
 	//初始化redis
 
