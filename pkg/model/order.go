@@ -16,6 +16,7 @@ type OrderCreateRet struct {
 }
 
 type OrderListArg struct {
+	Name string `json:"name"`
 }
 
 type OrderListRet struct {

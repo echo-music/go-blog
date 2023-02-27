@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type Response struct {
+type Result struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data"`
@@ -17,7 +17,7 @@ func Success(c *gin.Context, msg string, data interface{}) {
 		msg = "ok"
 	}
 
-	c.JSON(http.StatusOK, Response{
+	c.JSON(http.StatusOK, Result{
 		Code: gerror.ResponseCode.Success,
 		Msg:  msg,
 		Data: data,
@@ -38,7 +38,7 @@ func Error(c *gin.Context, e error) {
 		msg = gerror.ResponseMsg.Exception
 	}
 
-	c.JSON(http.StatusOK, Response{
+	c.JSON(http.StatusOK, Result{
 		Code: code,
 		Msg:  msg,
 	})

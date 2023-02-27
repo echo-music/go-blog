@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/echo-music/go-blog/internal/service"
 	"github.com/echo-music/go-blog/pkg/gerror"
+	"github.com/echo-music/go-blog/pkg/model"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
 )
@@ -32,11 +33,13 @@ func (a *orderApi) Router(r *gin.Engine) {
 // @Tags 订单管理
 // @Accept json
 // @Produce json
-// @success	200 {object} response.Response{data=model.OrderListRet} "_"
+// @param   _ query model.OrderListArg _ "_"
+// @success	200 {object} response.Result{data=model.OrderListRet} "_"
 // @Router /orders [get]
 func (a *orderApi) List(c *gin.Context) {
 
-	list, err := service.Order.List(c)
+	arg := model.OrderListArg{}
+	list, err := service.Order.List(c, arg)
 	if err != nil {
 		c.Error(err)
 		return

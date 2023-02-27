@@ -13,8 +13,8 @@ type orderSrv struct {
 
 var Order orderSrv
 
-func (a *orderSrv) List(c *gin.Context) (orders model.OrderListRet, err error) {
-	
+func (a *orderSrv) List(c *gin.Context, arg model.OrderListArg) (orders model.OrderListRet, err error) {
+
 	err = db.DB().Model(&model.Order{}).Scan(&orders.List).Error
 
 	return
