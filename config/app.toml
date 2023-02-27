@@ -16,3 +16,10 @@ host = "127.0.0.1:6379"
 password = "123456"
 db = 0
 
+[logger]
+fileName = "./runtime/logs/a.log"
+maxSize = 1
+maxBackups = 30
+maxAges = 7
+compress = true
+level = ""

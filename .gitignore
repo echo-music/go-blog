@@ -15,10 +15,9 @@ cbuild
 main
 .vscode
 go.sum
-!packed/packed.go
 packed/
 swagger/
 temp/
 .DS_Store
 docs/
-
+runtime/

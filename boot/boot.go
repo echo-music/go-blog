@@ -6,6 +6,7 @@ import (
 	"github.com/echo-music/go-blog/internal/router"
 	"github.com/echo-music/go-blog/pkg/cache"
 	"github.com/echo-music/go-blog/pkg/db"
+	"github.com/echo-music/go-blog/pkg/logs"
 	"github.com/echo-music/go-blog/pkg/middleware"
 	"github.com/echo-music/go-blog/swagger"
 	"github.com/gin-gonic/gin"
@@ -13,9 +14,10 @@ import (
 )
 
 type config struct {
-	App   App
-	Mysql db.Config
-	Redis cache.Config
+	App    App
+	Mysql  db.Config
+	Redis  cache.Config
+	Logger logs.Config
 }
 
 type App struct {
@@ -41,10 +43,15 @@ func init() {
 	//初始化redis
 	cache.Init(Cfg.Redis)
 
+	//初始化日志
+	fmt.Println(Cfg.Logger)
+	logs.Init(Cfg.Logger)
+
 }
 
 func Run() {
 	//初始化中间件,路由,swagger等
+
 	r := gin.New()
 	middleware.Init(r)
 	router.Init(r)

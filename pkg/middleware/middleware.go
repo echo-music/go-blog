@@ -1,9 +1,7 @@
 package middleware
 
 import (
-	"fmt"
-	"github.com/echo-music/go-blog/pkg/gerror"
-	"github.com/echo-music/go-blog/pkg/response"
+	"github.com/echo-music/go-blog/pkg/logs"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -11,15 +9,16 @@ import (
 func Init(r *gin.Engine) {
 
 	r.Use(
-		gin.Logger(),
+		Logger(logs.ZapLog),
+		Recovery(logs.ZapLog, true),
 		cors.Default(),
 		Catch(),
 	)
 
-	r.Use(gin.CustomRecovery(func(c *gin.Context, err interface{}) {
-		// 程序panic需要报警
-		fmt.Println(err)
-		response.Error(c, gerror.Exception(""))
-	}))
+	//r.Use(gin.CustomRecovery(func(c *gin.Context, err interface{}) {
+	//	// 程序panic需要报警
+	//	fmt.Println(err)
+	//	response.Error(c, gerror.Exception(""))
+	//}))
 
 }

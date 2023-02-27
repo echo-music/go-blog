@@ -21,6 +21,9 @@ func Init(cfg Config) {
 	}
 
 	sqlDB, err := db.DB()
+	if err != nil {
+		panic(err)
+	}
 
 	// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.
 	sqlDB.SetMaxIdleConns(cfg.MaxIdle)
