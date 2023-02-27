@@ -1,10 +1,15 @@
 package boot
 
 import (
+	"fmt"
 	"github.com/BurntSushi/toml"
+	"github.com/echo-music/go-blog/internal/router"
 	"github.com/echo-music/go-blog/pkg/cache"
 	"github.com/echo-music/go-blog/pkg/db"
+	"github.com/echo-music/go-blog/pkg/middleware"
+	"github.com/echo-music/go-blog/swagger"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 type config struct {
@@ -21,7 +26,7 @@ type App struct {
 
 var Cfg config
 
-func Init() {
+func init() {
 	//设置debug模式
 	gin.SetMode(gin.DebugMode)
 
@@ -36,4 +41,15 @@ func Init() {
 	//初始化redis
 	cache.Init(Cfg.Redis)
 
+}
+
+func Run() {
+	//初始化中间件,路由,swagger等
+	r := gin.New()
+	middleware.Init(r)
+	router.Init(r)
+	swagger.Init(r)
+
+	//启动服务
+	log.Fatal(r.Run(fmt.Sprintf(":%d", 8081)))
 }
