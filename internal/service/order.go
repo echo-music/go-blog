@@ -6,7 +6,6 @@ import (
 	"go-blog/pkg/db"
 	"go-blog/pkg/gerror"
 	"go-blog/pkg/model"
-	"net/http"
 )
 
 type orderSrv struct {
@@ -27,9 +26,7 @@ func (a *orderSrv) Create(c *gin.Context) {
 		c.Error(err)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"message": "订单创建",
-	})
+
 }
 
 func (a *orderSrv) Update(c *gin.Context) {
@@ -39,7 +36,5 @@ func (a *orderSrv) Update(c *gin.Context) {
 		c.Error(err)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"message": "修改订单",
-	})
+	
 }
