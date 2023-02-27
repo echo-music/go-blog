@@ -16,7 +16,7 @@ type OrderCreateRet struct {
 }
 
 type OrderListArg struct {
-	Name string `json:"name"`
+	Name string `json:"name" form:"name"`
 }
 
 type OrderListRet struct {

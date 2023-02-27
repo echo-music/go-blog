@@ -33,7 +33,12 @@ func (a *orderApi) Router(r *gin.Engine) {
 // @Router /orders [get]
 func (a *orderApi) List(c *gin.Context) {
 
-	arg := model.OrderListArg{}
+	var arg model.OrderListArg
+	if err := c.ShouldBindQuery(&arg); err != nil {
+		c.Error(err)
+		return
+	}
+
 	list, err := service.Order.List(c, arg)
 	if err != nil {
 		c.Error(err)
