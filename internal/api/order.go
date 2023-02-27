@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"go-blog/internal/service"
-	"go-blog/pkg/library/gerror"
+	"go-blog/pkg/gerror"
 	"net/http"
 )
 

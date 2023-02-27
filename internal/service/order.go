@@ -3,8 +3,8 @@ package service
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"go-blog/pkg/library/db"
-	"go-blog/pkg/library/gerror"
+	"go-blog/pkg/db"
+	"go-blog/pkg/gerror"
 	"go-blog/pkg/model"
 	"net/http"
 )

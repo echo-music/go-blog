@@ -3,12 +3,12 @@ package boot
 import (
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
-	"go-blog/pkg/library/db"
+	db2 "go-blog/pkg/db"
 )
 
 type config struct {
 	App   *App
-	Mysql *db.Config
+	Mysql *db2.Config
 }
 
 type App struct {
@@ -29,7 +29,7 @@ func init() {
 	}
 
 	//初始化数据库
-	db.InitDB(Cfg.Mysql)
+	db2.InitDB(Cfg.Mysql)
 
 	//初始化redis
 
