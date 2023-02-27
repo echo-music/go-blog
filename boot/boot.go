@@ -21,7 +21,7 @@ var Cfg config
 
 func init() {
 	//设置debug模式
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 
 	//读取配置文件
 	if _, err := toml.DecodeFile("./config/app.toml", &Cfg); err != nil {
