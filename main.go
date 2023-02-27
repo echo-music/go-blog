@@ -12,7 +12,6 @@ import (
 func main() {
 	r := gin.New()
 
-	boot.InitConf()
 	middleware.Register(r)
 	router.Register(r)
 

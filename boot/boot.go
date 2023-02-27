@@ -18,7 +18,7 @@ type App struct {
 
 var Cfg config
 
-func InitConf() {
+func init() {
 
 	//读取配置文件
 	if _, err := toml.DecodeFile("./config/app.toml", &Cfg); err != nil {

@@ -3,7 +3,6 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"go-blog/pkg/library/gerror"
-	"go-blog/pkg/model"
 	"net/http"
 )
 
@@ -23,9 +22,9 @@ func Catch() gin.HandlerFunc {
 		msg := e.Error()
 		switch code {
 		case 0, -1:
-			code = model.ResponseCode.Failure
-		case model.ResponseCode.Exception:
-			msg = model.ResponseMsg.Exception
+			code = gerror.ResponseCode.Failure
+		case gerror.ResponseCode.Exception:
+			msg = gerror.ResponseMsg.Exception
 		}
 		c.JSON(http.StatusOK, gin.H{
 			"code":    code,

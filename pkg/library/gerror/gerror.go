@@ -1,5 +1,9 @@
 package gerror
 
+import (
+	"errors"
+)
+
 const (
 	CodeNil = -1
 )
@@ -35,4 +39,28 @@ func NewWithCode(code int, e error) error {
 		code:  code,
 		error: e,
 	}
+}
+
+func Unauthorized(msg ...string) error {
+	m := ResponseMsg.Unauthorized
+	if len(msg) > 0 {
+		m = msg[0]
+	}
+	return NewWithCode(ResponseCode.Unauthorized, errors.New(m))
+}
+
+func Forbidden(msg ...string) error {
+	m := ResponseMsg.Forbidden
+	if len(msg) > 0 {
+		m = msg[0]
+	}
+	return NewWithCode(ResponseCode.Forbidden, errors.New(m))
+}
+
+func TooManyRequests(msg ...string) error {
+	m := ResponseMsg.TooManyRequests
+	if len(msg) > 0 {
+		m = msg[0]
+	}
+	return NewWithCode(ResponseCode.TooManyRequests, errors.New(m))
 }
