@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net"
+	"net/http"
 	"net/http/httputil"
 	"os"
 	"runtime/debug"
@@ -50,7 +51,7 @@ func Recovery(logger *zap.Logger, stack bool) gin.HandlerFunc {
 					)
 				}
 				response.Error(c, gerror.Exception(""))
-				//c.AbortWithStatus(http.StatusInternalServerError)
+				c.AbortWithStatus(http.StatusInternalServerError)
 			}
 		}()
 		c.Next()

@@ -6,6 +6,7 @@ import (
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"os"
+	"time"
 )
 
 type Config struct {
@@ -17,7 +18,6 @@ type Config struct {
 	Level      string
 }
 
-// init
 var ZapLog *zap.Logger
 
 // Init 初始化Logger
@@ -25,19 +25,13 @@ func Init(cfg Config) (err error) {
 	writeSyncer := getLogWriter(cfg.FileName, cfg.MaxSize, cfg.MaxBackups, cfg.MaxAges)
 	encoder := getEncoder()
 	var l = new(zapcore.Level)
-	err = l.UnmarshalText([]byte(cfg.Level))
-	if err != nil {
+	if err = l.UnmarshalText([]byte(cfg.Level)); err != nil {
 		return
 	}
-	var core zapcore.Core //定义日志输出模式变量
+
+	var core zapcore.Core
 	if gin.Mode() == gin.DebugMode {
-		// 进入开发模式，日志输出到终端
-		consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
-		// zapcore.NewTee可以实现日志多重输出，可以指定不同的日志级别输出到不同的位置
-		core = zapcore.NewTee(
-			zapcore.NewCore(encoder, writeSyncer, l),
-			zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), zapcore.DebugLevel),
-		)
+		core = zapcore.NewCore(encoder, zapcore.Lock(os.Stdout), zapcore.DebugLevel)
 
 	} else {
 		core = zapcore.NewCore(encoder, writeSyncer, l)
@@ -49,15 +43,21 @@ func Init(cfg Config) (err error) {
 	return
 }
 
+//设置日志格式
 func getEncoder() zapcore.Encoder {
 	encoderConfig := zap.NewProductionEncoderConfig()
-	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	encoderConfig.TimeKey = "time"
+	encoderConfig.EncodeTime = getEncodeTime
 	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
 	encoderConfig.EncodeDuration = zapcore.SecondsDurationEncoder
 	encoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
 	return zapcore.NewJSONEncoder(encoderConfig)
 }
+func getEncodeTime(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+	enc.AppendString(t.Format("2006/01/02 - 15:04:05.000"))
+}
+
+//设置日志切割
 func getLogWriter(filename string, maxSize, maxBackup, maxAge int) zapcore.WriteSyncer {
 	lumberJackLogger := &lumberjack.Logger{
 		Filename:   filename,
