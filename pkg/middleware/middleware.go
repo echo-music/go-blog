@@ -9,8 +9,8 @@ import (
 func Init(r *gin.Engine) {
 
 	r.Use(
-		Logger(logs.ZapLog),
 		Recovery(logs.ZapLog, true),
+		Logger(logs.ZapLog),
 		cors.Default(),
 		Catch(),
 	)

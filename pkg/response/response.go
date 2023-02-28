@@ -42,5 +42,6 @@ func Error(c *gin.Context, e error) {
 		Code: code,
 		Msg:  msg,
 	})
+	c.Abort()
 
 }
