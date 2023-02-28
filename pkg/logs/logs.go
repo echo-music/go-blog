@@ -38,7 +38,7 @@ func Init(cfg Config) (err error) {
 	}
 
 	ZapLog = zap.New(core, zap.AddCaller())
-	zap.ReplaceGlobals(ZapLog) // 替换zap包中全局的logger实例，后续在其他包中只需使用zap.L()调用即可
+	zap.ReplaceGlobals(ZapLog)
 
 	return
 }
