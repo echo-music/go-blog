@@ -15,10 +15,4 @@ func Init(r *gin.Engine) {
 		Catch(),
 	)
 
-	//r.Use(gin.CustomRecovery(func(c *gin.Context, err interface{}) {
-	//	// 程序panic需要报警
-	//	fmt.Println(err)
-	//	response.Error(c, gerror.Exception(""))
-	//}))
-
 }
