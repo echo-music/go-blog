@@ -50,10 +50,14 @@
 2）安装swag命令用于生成接口文档
 go install github.com/swaggo/swag/cmd/swag@latest
 
-3）更新依赖包（项目根目录下执行,确保go.mod文件存在，否则执行 go mod init github.com/echo-music/go-blog ）
+
+3) 拉取项目
+git clone git@github.com:echo-music/go-blog.git
+
+4）更新依赖包（项目根目录下执行,确保go.mod文件存在，否则执行 go mod init github.com/echo-music/go-blog ）
 go mod tidy
 
-4）项目跑起来（项目根目录下执行）
+5）项目跑起来（项目根目录下执行）
 make run
 
 ```
