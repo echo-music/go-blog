@@ -73,6 +73,7 @@ git clone git@github.com:echo-music/go-blog.git
 
 ### 4）更新依赖包（项目根目录下执行)
 ```
+go mod download
 go mod tidy
 
 注意:确保go.mod文件存在，否则执行 go mod init github.com/echo-music/go-blog ）
