@@ -4,6 +4,60 @@
 
 ```
 ## 一、项目结构说明
+```
+├── Makefile
+├── README.md
+├── boot
+│   └── boot.go
+├── config
+│   └── app.toml
+├── docs
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
+├── go.mod
+├── go.sum
+├── internal
+│   ├── api
+│   │   └── order.go
+│   ├── router
+│   │   └── router.go
+│   └── service
+│       └── order.go
+├── main.go
+├── pkg
+│   ├── cache
+│   │   ├── cache.go
+│   │   └── config.go
+│   ├── db
+│   │   ├── config.go
+│   │   └── db.go
+│   ├── gerror
+│   │   ├── code.go
+│   │   ├── gerror.go
+│   │   └── msg.go
+│   ├── logs
+│   │   └── logs.go
+│   ├── middleware
+│   │   ├── catch.go
+│   │   ├── logger.go
+│   │   ├── middleware.go
+│   │   └── recovery.go
+│   ├── model
+│   │   └── order.go
+│   └── response
+│       └── response.go
+├── runtime
+│   └── logs
+│       ├── a-2023-02-27T10-28-57.646.log
+│       ├── a-2023-02-27T10-29-01.987.log
+│       ├── a-2023-02-27T10-29-05.857.log
+│       ├── a-2023-02-27T10-41-41.139.log
+│       └── a.log
+└── swagger
+    └── swagger.go
+
+```
 ### boot
 ```
 项目配置初始化，mysql,redis初始化；
