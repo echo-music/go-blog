@@ -16,7 +16,6 @@ main
 .vscode
 go.sum
 packed/
-swagger/
 temp/
 .DS_Store
 docs/

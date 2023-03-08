@@ -7,7 +7,6 @@ require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.0
-	github.com/opentracing/opentracing-go v1.2.0
 	github.com/redis/go-redis/v9 v9.0.2
 	github.com/swaggo/files v1.0.0
 	github.com/swaggo/gin-swagger v1.5.3
