@@ -52,6 +52,7 @@ func Run() {
 	//初始化中间件,路由,swagger等
 
 	r := gin.New()
+
 	middleware.Init(r)
 	router.Init(r)
 	swagger.Init(r)
