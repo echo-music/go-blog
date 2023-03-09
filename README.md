@@ -60,7 +60,7 @@
 ```
 ### boot
 ```
-项目配置初始化，mysql,redis初始化；
+项目启动包,配置初始化，mysql,redis初始化；
 ```
 
 ### config
