@@ -134,7 +134,36 @@ go mod tidy
 
 ```
 
-### 5）项目跑起来（项目根目录下执行）
+### 5）项目配置文件,修改数据库，redis配置
+```
+[app]
+name = "go_gin"
+port = 8081
+version = "1.0.0"
+
+[mysql]
+type = "mysql"
+link = "root:123456@tcp(localhost:3306)/test"
+charset = "utf8mb4"
+maxIdle = 10
+maxOpen = 100
+maxLifetime = "30s"
+
+[redis]
+host = "127.0.0.1:6379"
+password = "123456"
+db = 0
+
+[logger]
+fileName = "./runtime/logs/a.log"
+maxSize = 1
+maxBackups = 30
+maxAges = 7
+compress = true
+level = ""
+```
+
+### 6）项目跑起来（项目根目录下执行）
 ```
 make run
 ```
