@@ -57,5 +57,5 @@ func Run() {
 	swagger.Init(r)
 
 	//启动服务
-	log.Fatal(r.Run(fmt.Sprintf(":%d", 8081)))
+	log.Fatal(r.Run(fmt.Sprintf(":%d", Cfg.App.Port)))
 }
