@@ -5,8 +5,9 @@ init:
 	go get github.com/pilu/fresh
 	go install github.com/pilu/fresh
 	go install github.com/swaggo/swag/cmd/swag@latest
-	go mod tidy
 	swag init
+	go mod tidy
+
 
 run:
 	swag init;go mod tidy;fresh
