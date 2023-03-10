@@ -66,6 +66,4 @@ func Run() {
 	}
 	log.Fatal(server.ListenAndServe())
 
-	log.Println("Server exiting")
-
 }
