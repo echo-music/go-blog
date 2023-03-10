@@ -181,7 +181,7 @@ level = ""
 ## 项目首次启动运行该命令
 make init
 
-## 
+## 项目跑起来
 make run  ()
 ```
 
@@ -191,31 +191,7 @@ make run  ()
 http://127.0.0.1:8081/orders/
 ```
 
-### 8) 新增平滑启动
-
-```
-资料：https://juejin.cn/post/7015911395413721118
-
-https://github.com/fvbock/endless
-```
-
-### 9）本地热启动
-
-```
-仓库地址:
-https://github.com/gravityblast/fresh
-
-
-安装fresh:
-
-go install github.com/pilu/fresh
-
-项目下之下以下命令:
-
-fresh
-```
-
-### 10) 访问swagger接口文档
+### 8) 访问swagger接口文档
 
 ```
 http://localhost:8081/swagger/index.html
