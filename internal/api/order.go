@@ -7,6 +7,8 @@ import (
 	"github.com/echo-music/go-blog/pkg/model"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"time"
 )
 
 type orderApi struct {
@@ -32,7 +34,8 @@ func (a *orderApi) Router(r *gin.Engine) {
 // @success	200 {object} response.Result{data=model.OrderListRet} "_"
 // @Router /orders [get]
 func (a *orderApi) List(c *gin.Context) {
-
+	time.Sleep(10 * time.Second)
+	c.String(http.StatusOK, "Welcome Gin Server,coanimade dcdcdecfecerc")
 	var arg model.OrderListArg
 	if err := c.ShouldBindQuery(&arg); err != nil {
 		c.Error(err)

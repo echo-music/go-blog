@@ -9,8 +9,10 @@ import (
 	"github.com/echo-music/go-blog/pkg/logs"
 	"github.com/echo-music/go-blog/pkg/middleware"
 	"github.com/echo-music/go-blog/swagger"
+	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 	"log"
+	"syscall"
 )
 
 type config struct {
@@ -57,6 +59,13 @@ func Run() {
 	router.Init(r)
 	swagger.Init(r)
 
-	//启动服务
-	log.Fatal(r.Run(fmt.Sprintf(":%d", Cfg.App.Port)))
+	server := endless.NewServer(fmt.Sprintf(":%d", Cfg.App.Port), r)
+
+	server.BeforeBegin = func(add string) {
+		log.Printf("Actual pid is %d", syscall.Getpid())
+	}
+	log.Fatal(server.ListenAndServe())
+
+	log.Println("Server exiting")
+
 }
