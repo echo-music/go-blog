@@ -122,20 +122,14 @@
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
-### 2）安装swag命令用于生成接口文档
 
-```
-go install github.com/swaggo/swag/cmd/swag@latest
-
-```
-
-### 3) 拉取项目
+### 2) 拉取项目
 
 ```
 git clone git@github.com:echo-music/go-blog.git
 ```
 
-### 4）更新依赖包（项目根目录下执行)
+### 3）更新依赖包（项目根目录下执行)
 
 ```
 go mod download
@@ -145,7 +139,7 @@ go mod tidy
 
 ```
 
-### 5）项目配置文件,修改数据库，redis配置
+### 4）项目配置文件,修改数据库，redis配置
 
 ```
 [app]
@@ -175,7 +169,7 @@ compress = true
 level = ""
 ```
 
-### 6）项目跑起来（项目根目录下执行）
+### 5）项目跑起来（项目根目录下执行）
 
 ```
 ## 项目首次启动运行该命令
@@ -185,13 +179,13 @@ make init
 make run  ()
 ```
 
-### 7) 访问接口
+### 6) 访问接口
 
 ```
 http://127.0.0.1:8081/orders/
 ```
 
-### 8) 访问swagger接口文档
+### 7) 访问swagger接口文档
 
 ```
 http://localhost:8081/swagger/index.html
