@@ -26,4 +26,5 @@ type OrderListRet struct {
 type OrderListRow struct {
 	Id   uint   `json:"id"`
 	Name string `json:"name"`
+	Age  int    `json:"age"`
 }
