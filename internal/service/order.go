@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"github.com/echo-music/go-blog/pkg/db"
 	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/echo-music/go-blog/pkg/model"
 	"github.com/gin-gonic/gin"
@@ -15,7 +14,7 @@ var Order orderSrv
 
 func (a *orderSrv) List(c *gin.Context, arg model.OrderListArg) (orders model.OrderListRet, err error) {
 
-	err = db.DB().Model(&model.Order{}).Scan(&orders.List).Error
+	//err = db.DB().Model(&model.Order{}).Scan(&orders.List).Error
 
 	return
 }
