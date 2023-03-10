@@ -190,6 +190,8 @@ http://127.0.0.1:8081/orders/
 ### 8) 新增平滑启动
 
 ```
+资料：https://juejin.cn/post/7015911395413721118
+
 https://github.com/fvbock/endless
 ```
 
