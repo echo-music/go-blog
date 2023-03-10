@@ -2,7 +2,6 @@
 ## make swag 安装swag命令,此命令主要生成接口文档
 
 init:
-	go mod init github.com/echo-music/go-blog
 	go mod tidy
 	go get github.com/pilu/fresh
 	go install github.com/pilu/fresh
