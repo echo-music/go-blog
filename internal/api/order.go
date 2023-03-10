@@ -35,7 +35,7 @@ func (a *orderApi) Router(r *gin.Engine) {
 // @Router /orders [get]
 func (a *orderApi) List(c *gin.Context) {
 	time.Sleep(10 * time.Second)
-	c.String(http.StatusOK, "Welcome Gin Server,coanimade dcdcdecfecerc")
+	c.String(http.StatusOK, "Welcome Gin Se")
 	var arg model.OrderListArg
 	if err := c.ShouldBindQuery(&arg); err != nil {
 		c.Error(err)

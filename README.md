@@ -173,3 +173,17 @@ make run
 ```
 http://127.0.0.1:8081/orders/
 ```
+
+### 8) 新增平滑启动
+```
+https://github.com/fvbock/endless
+```
+
+### 9）本地热启动
+```
+https://github.com/gravityblast/fresh
+
+go install github.com/pilu/fresh
+
+fresh
+```
