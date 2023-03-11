@@ -16,6 +16,7 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 		query := c.Request.URL.RawQuery
 		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
+
 		c.Next()
 
 		cost := time.Since(start)

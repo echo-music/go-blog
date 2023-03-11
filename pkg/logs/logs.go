@@ -2,16 +2,13 @@ package logs
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
 	jaegercfg "github.com/uber/jaeger-client-go/config"
 	jaegerZap "github.com/uber/jaeger-client-go/log/zap"
-	"github.com/uber/jaeger-lib/metrics"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
-	"io"
-	"log"
 	"os"
 	"sync"
 	"time"
@@ -51,12 +48,10 @@ func Init(cfg Config) {
 		ZapLog = zap.New(core, zap.AddCaller())
 		zap.ReplaceGlobals(ZapLog)
 
-		t, closer, err := NewGlobalTracer()
-		if err != nil {
+		if err := NewGlobalTracer(); err != nil {
 			panic(err)
 		}
-		defer closer.Close()
-		opentracing.SetGlobalTracer(t)
+
 	})
 }
 
@@ -85,32 +80,25 @@ func getLogWriter(filename string, maxSize, maxBackup, maxAge int) zapcore.Write
 	return zapcore.AddSync(lumberJackLogger)
 }
 
-func NewGlobalTracer() (opentracing.Tracer, io.Closer, error) {
+func NewGlobalTracer() (err error) {
+
 	cfg := jaegercfg.Configuration{
 		Sampler: &jaegercfg.SamplerConfig{
 			Type:  jaeger.SamplerTypeConst,
 			Param: 1,
 		},
 		Reporter: &jaegercfg.ReporterConfig{
-			LogSpans: true,
+			LogSpans:           false,
+			LocalAgentHostPort: "127.0.0.1:6831", // 替换host
 		},
 	}
-
-	jMetricsFactory := metrics.NullFactory
-
-	// 初始化 Tracer 实例
-	cfg.ServiceName = "go-blog-service"
-
-	tracer, closer, err := cfg.NewTracer(
-		jaegercfg.Logger(jaegerZap.NewLogger(ZapLog)),
-		jaegercfg.Metrics(jMetricsFactory),
-		// 设置最大 Tag 长度，根据情况设置
-		jaegercfg.MaxTagValueLength(65535),
+	_, err = cfg.InitGlobalTracer(
+		"go-blog-service",
+		jaegercfg.Logger(jaegerZap.NewLogger(zap.L())),
 	)
 	if err != nil {
-		log.Printf("Could not initialize jaeger tracer: %s", err.Error())
-		panic(err)
+		return
 	}
+	return err
 
-	return tracer, closer, err
 }

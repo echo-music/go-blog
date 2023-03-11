@@ -1,19 +1,24 @@
 package middleware
 
 import (
+	"bytes"
 	"context"
+	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
 	"github.com/uber/jaeger-client-go"
+	"time"
 )
 
 func Tracing() gin.HandlerFunc {
+
 	return func(c *gin.Context) {
 		var (
 			newCtx context.Context
 			span   opentracing.Span
 		)
+		start := time.Now()
 
 		spanCtx, err := opentracing.GlobalTracer().Extract(
 			opentracing.HTTPHeaders,
@@ -38,6 +43,7 @@ func Tracing() gin.HandlerFunc {
 				},
 			)
 		}
+
 		defer span.Finish()
 
 		var (
@@ -54,7 +60,23 @@ func Tracing() gin.HandlerFunc {
 		c.Set("X-Trace-ID", traceID) // 后续取出
 		c.Set("X-Span-ID", spanID)
 		c.Request = c.Request.WithContext(newCtx)
+
+		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
+		c.Writer = bodyLogWriter
+
 		c.Next()
+
+		span.SetTag("status", c.Writer.Status())
+		span.SetTag("method", c.Request.Method)
+		span.SetTag("path", c.Request.URL)
+		span.SetTag("query", c.Request.URL.RawQuery)
+		span.SetTag("res", bodyLogWriter.Body.String())
+		span.SetTag("ip", c.ClientIP())
+		span.SetTag("user-agent", c.Request.UserAgent())
+		span.SetTag("errors", c.Errors.ByType(gin.ErrorTypePrivate).String())
+		span.SetTag("trace_id", traceID)
+		span.SetTag("span_id", spanID)
+		span.SetTag("cost", time.Since(start))
 
 	}
 }
