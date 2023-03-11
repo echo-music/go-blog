@@ -28,6 +28,8 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 			zap.String("ip", c.ClientIP()),
 			zap.String("user-agent", c.Request.UserAgent()),
 			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
+			zap.String("trace_id", c.GetString("X-Trace-ID")),
+			zap.String("span_id", c.GetString("X-Span-ID")),
 			zap.Duration("cost", cost),
 		)
 	}
