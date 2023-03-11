@@ -1,6 +1,7 @@
 package response
 
 import (
+	"bytes"
 	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -44,4 +45,18 @@ func Error(c *gin.Context, e error) {
 	})
 	c.Abort()
 
+}
+
+type BodyLogWriter struct {
+	gin.ResponseWriter
+	Body *bytes.Buffer
+}
+
+func (w BodyLogWriter) Write(b []byte) (int, error) {
+	w.Body.Write(b)
+	return w.ResponseWriter.Write(b)
+}
+func (w BodyLogWriter) WriteString(s string) (int, error) {
+	w.Body.WriteString(s)
+	return w.ResponseWriter.WriteString(s)
 }

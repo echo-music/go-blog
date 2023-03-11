@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"bytes"
+	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"time"
@@ -12,6 +14,8 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 		start := time.Now()
 		path := c.Request.URL.Path
 		query := c.Request.URL.RawQuery
+		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
+		c.Writer = bodyLogWriter
 		c.Next()
 
 		cost := time.Since(start)
@@ -20,6 +24,7 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 			zap.String("method", c.Request.Method),
 			zap.String("path", path),
 			zap.String("query", query),
+			zap.String("res", bodyLogWriter.Body.String()),
 			zap.String("ip", c.ClientIP()),
 			zap.String("user-agent", c.Request.UserAgent()),
 			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
