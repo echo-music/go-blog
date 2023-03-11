@@ -1,6 +1,6 @@
 # go-blog
 
-这是用gin搭建的app用例
+这是用gin搭建的app用例,如果你是小白，那它适合你练手！
 
 1. 新增日志中间件
 
@@ -182,7 +182,7 @@ level = ""
 make init
 
 ## 项目跑起来
-make run  ()
+make run
 ```
 
 ### 6) 访问接口
