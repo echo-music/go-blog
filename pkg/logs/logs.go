@@ -88,8 +88,10 @@ func NewGlobalTracer() (err error) {
 			Param: 1,
 		},
 		Reporter: &jaegercfg.ReporterConfig{
-			LogSpans:           false,
-			LocalAgentHostPort: "127.0.0.1:6831", // 替换host
+			LogSpans:          false,
+			CollectorEndpoint: "http://127.0.0.1:14268/api/traces",
+
+			//LocalAgentHostPort: "127.0.0.1:6831", // 替换host
 		},
 	}
 	_, err = cfg.InitGlobalTracer(

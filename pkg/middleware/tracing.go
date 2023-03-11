@@ -59,11 +59,11 @@ func Tracing() gin.HandlerFunc {
 		}
 		c.Set("X-Trace-ID", traceID) // 后续取出
 		c.Set("X-Span-ID", spanID)
-		c.Request = c.Request.WithContext(newCtx)
+
+		c.Request = c.Request.WithContext(opentracing.ContextWithSpan(newCtx, span))
 
 		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
-
 		c.Next()
 
 		span.SetTag("status", c.Writer.Status())
