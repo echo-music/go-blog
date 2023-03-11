@@ -1,20 +1,18 @@
 # go-blog
 
-```
- 这是用gin搭建的app用例
- 1、新增日志中间件
- 
- 2、新增recover中间件
- 
- 3、新增异常捕获中间件
- 
- 4、新增跨域中间件
- 
- 5、新增热启动(执行make run即可)
- 
- 6、新增平滑启动(kill -1 pid)
+这是用gin搭建的app用例
 
-```
+1. 新增日志中间件
+
+2. 新增recover中间件
+
+3. 新增异常捕获中间件
+
+4. 新增跨域中间件
+
+5. 新增热启动(执行make run即可)
+
+6. 新增平滑启动(kill -1 pid)
 
 ## 一、项目结构说明
 
@@ -103,9 +101,7 @@
 
 #### 1-1、安装：
 
-```
-   http://c.biancheng.net/view/3994.html
-``` 
+http://c.biancheng.net/view/3994.html
 
 #### 1-2、设置go环境变量:
 
@@ -132,7 +128,6 @@
 ```
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
-
 
 ### 2) 拉取项目
 
@@ -192,12 +187,8 @@ make run  ()
 
 ### 6) 访问接口
 
-```
 http://127.0.0.1:8081/orders/
-```
 
 ### 7) 访问swagger接口文档
 
-```
 http://localhost:8081/swagger/index.html
-```
