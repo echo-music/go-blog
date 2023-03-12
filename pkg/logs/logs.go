@@ -2,10 +2,6 @@ package logs
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/uber/jaeger-client-go"
-	jaegercfg "github.com/uber/jaeger-client-go/config"
-	jaegerZap "github.com/uber/jaeger-client-go/log/zap"
-
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -48,10 +44,6 @@ func Init(cfg Config) {
 		ZapLog = zap.New(core, zap.AddCaller())
 		zap.ReplaceGlobals(ZapLog)
 
-		if err := NewGlobalTracer(); err != nil {
-			panic(err)
-		}
-
 	})
 }
 
@@ -78,29 +70,4 @@ func getLogWriter(filename string, maxSize, maxBackup, maxAge int) zapcore.Write
 		MaxAge:     maxAge,
 	}
 	return zapcore.AddSync(lumberJackLogger)
-}
-
-func NewGlobalTracer() (err error) {
-
-	cfg := jaegercfg.Configuration{
-		Sampler: &jaegercfg.SamplerConfig{
-			Type:  jaeger.SamplerTypeConst,
-			Param: 1,
-		},
-		Reporter: &jaegercfg.ReporterConfig{
-			LogSpans:          false,
-			CollectorEndpoint: "http://127.0.0.1:14268/api/traces",
-
-			//LocalAgentHostPort: "127.0.0.1:6831", // 替换host
-		},
-	}
-	_, err = cfg.InitGlobalTracer(
-		"go-blog-service",
-		jaegercfg.Logger(jaegerZap.NewLogger(zap.L())),
-	)
-	if err != nil {
-		return
-	}
-	return err
-
 }
