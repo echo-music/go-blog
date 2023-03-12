@@ -14,6 +14,7 @@ import (
 
 func Recovery(logger *zap.Logger, stack bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
+
 		defer func() {
 			if err := recover(); err != nil {
 				// Check for a broken connection, as it is not really a
