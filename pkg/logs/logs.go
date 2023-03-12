@@ -27,7 +27,7 @@ func Init(cfg Config) {
 
 	once.Do(func() {
 		writeSyncer := getLogWriter(cfg.FileName, cfg.MaxSize, cfg.MaxBackups, cfg.MaxAges)
-		encoder := getEncoder()
+		encoder := getEncoderConfig()
 		var l = new(zapcore.Level)
 		if err := l.UnmarshalText([]byte(cfg.Level)); err != nil {
 			panic(err)
@@ -35,20 +35,24 @@ func Init(cfg Config) {
 
 		var core zapcore.Core
 		if gin.Mode() == gin.DebugMode {
-			core = zapcore.NewCore(encoder, zapcore.Lock(os.Stdout), zapcore.DebugLevel)
-
+			core = zapcore.NewCore(
+				encoder,
+				zapcore.NewMultiWriteSyncer(writeSyncer, zapcore.Lock(os.Stdout)),
+				zapcore.DebugLevel,
+			)
 		} else {
 			core = zapcore.NewCore(encoder, writeSyncer, l)
 		}
+		filed := zap.Fields(zap.String("serviceName", "blog"))
 
-		ZapLog = zap.New(core, zap.AddCaller())
+		ZapLog = zap.New(core, zap.AddCaller(), filed)
 		zap.ReplaceGlobals(ZapLog)
 
 	})
 }
 
 //设置日志格式
-func getEncoder() zapcore.Encoder {
+func getEncoderConfig() zapcore.Encoder {
 	encoderConfig := zap.NewProductionEncoderConfig()
 	encoderConfig.TimeKey = "time"
 	encoderConfig.EncodeTime = getEncodeTime
