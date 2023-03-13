@@ -1,6 +1,8 @@
 # go-blog
 
 这是用gin搭建的app用例,如果你是小白，那它适合你练手！
+## gin 框架文档
+https://gin-gonic.com/docs/examples/serving-data-from-reader/
 
 1. 新增日志中间件
 
