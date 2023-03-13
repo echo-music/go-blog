@@ -27,7 +27,6 @@ func (a *orderSrv) Create(c *gin.Context) {
 	err := gerror.New(errors.New("订单号不能为空"))
 
 	if err != nil {
-		c.Error(err)
 		return
 	}
 
@@ -37,7 +36,6 @@ func (a *orderSrv) Update(c *gin.Context) {
 	err := gerror.New(errors.New("订单号不能为空"))
 
 	if err != nil {
-		c.Error(err)
 		return
 	}
 
