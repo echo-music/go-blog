@@ -20,4 +20,4 @@ temp/
 .DS_Store
 docs/
 runtime/
-./tmp
+./tmp/*
