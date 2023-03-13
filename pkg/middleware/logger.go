@@ -19,7 +19,6 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 
 		c.Next()
 
-		cost := time.Since(start)
 		logger.Info(path,
 			zap.Int("status", c.Writer.Status()),
 			zap.String("method", c.Request.Method),
@@ -29,7 +28,7 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 			zap.String("ip", c.ClientIP()),
 			zap.String("user-agent", c.Request.UserAgent()),
 			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
-			zap.Duration("cost", cost),
+			zap.Duration("cost", time.Since(start)),
 		)
 	}
 }
