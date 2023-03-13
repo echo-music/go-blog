@@ -19,7 +19,6 @@ type Config struct {
 	Level      string
 }
 
-var ZapLog *zap.Logger
 var once sync.Once
 
 // Init 初始化Logger
@@ -45,8 +44,8 @@ func Init(cfg Config) {
 		}
 		filed := zap.Fields(zap.String("serviceName", "blog"))
 
-		ZapLog = zap.New(core, zap.AddCaller(), filed)
-		zap.ReplaceGlobals(ZapLog)
+		zapLog := zap.New(core, zap.AddCaller(), filed)
+		zap.ReplaceGlobals(zapLog)
 
 	})
 }
