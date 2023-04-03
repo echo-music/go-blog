@@ -211,3 +211,7 @@ https://uptrace.dev/get/opentelemetry-go.html#getting-started
 https://github.com/uptrace/uptrace/blob/master/README.zh.md
 
 https://cloud.tencent.com/developer/article/2193995
+
+监控系统访问地址
+
+http://localhost:14318/overview/2/?time_gte=20230403T083600&time_dur=3600

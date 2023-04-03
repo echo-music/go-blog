@@ -27,11 +27,21 @@ func (a *orderSrv) List(c *gin.Context, arg model.OrderListArg) (orders model.Or
 	span.SetAttributes(attribute.Int("age", 10))
 	span.SetAttributes(attribute.String("name", "张三"))
 	defer span.End()
+
+	a.Create(c)
 	return
 }
 
 func (a *orderSrv) Create(c *gin.Context) {
 	err := gerror.New(errors.New("订单号不能为空"))
+
+	tr := otel.Tracer("order-Create")
+	_, span := tr.Start(c.Request.Context(), "Create", oteltrace.WithAttributes(attribute.String("id", "100")))
+
+	span.SetAttributes(attribute.Int("age", 10))
+	span.SetAttributes(attribute.String("name", "kkk"))
+	span.RecordError(err)
+	defer span.End()
 
 	if err != nil {
 		return
