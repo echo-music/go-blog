@@ -64,6 +64,7 @@ func Run() {
 		uptrace.WithServiceName("myservice"),
 		uptrace.WithServiceVersion("1.0.0"),
 	)
+
 	// Send buffered spans and free resources.
 	defer uptrace.Shutdown(ctx)
 

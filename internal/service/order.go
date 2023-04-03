@@ -19,7 +19,6 @@ var Order orderSrv
 func (a *orderSrv) List(c *gin.Context, arg model.OrderListArg) (orders model.OrderListRet, err error) {
 
 	//zap.L().Info("list", zap.String("name", "lisi"))
-
 	err = db.DB().Model(&model.Order{}).Scan(&orders.List).Error
 	tr := otel.Tracer("order-list")
 	_, span := tr.Start(c.Request.Context(), "list", oteltrace.WithAttributes(attribute.String("id", "100")))
