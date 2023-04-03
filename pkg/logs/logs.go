@@ -2,6 +2,7 @@ package logs
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -45,7 +46,12 @@ func Init(cfg Config) {
 		filed := zap.Fields(zap.String("serviceName", "blog"))
 
 		zapLog := zap.New(core, zap.AddCaller(), filed)
-		zap.ReplaceGlobals(zapLog)
+		//zap.ReplaceGlobals(zapLog)
+		logger := otelzap.New(zapLog)
+		//defer logger.Sync()
+
+		_ = otelzap.ReplaceGlobals(logger)
+		//defer undo()
 
 	})
 }

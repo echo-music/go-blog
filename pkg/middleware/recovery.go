@@ -4,6 +4,7 @@ import (
 	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
+	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
 	"net"
 	"net/http/httputil"
@@ -12,7 +13,7 @@ import (
 	"strings"
 )
 
-func Recovery(logger *zap.Logger, stack bool) gin.HandlerFunc {
+func Recovery(logger *otelzap.Logger, stack bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		defer func() {
