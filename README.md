@@ -194,3 +194,17 @@ http://127.0.0.1:8081/orders/
 ### 7) 访问swagger接口文档
 
 http://localhost:8081/swagger/index.html
+
+
+
+
+### 8）接入链路追踪
+
+接入jaeger链路追踪
+https://github.com/open-telemetry/opentelemetry-go/tree/main/exporters/jaeger
+
+
+监控系统UI
+https://github.com/uptrace/uptrace/blob/master/README.zh.md
+
+https://cloud.tencent.com/developer/article/2193995

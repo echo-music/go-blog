@@ -12,21 +12,9 @@ import (
 	"github.com/echo-music/go-blog/swagger"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/exporters/jaeger"
-	"go.opentelemetry.io/otel/sdk/resource"
-	tracesdk "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
+	"github.com/uptrace/uptrace-go/uptrace"
 	"log"
 	"syscall"
-	"time"
-)
-
-const (
-	service     = "trace-demo"
-	environment = "production"
-	id          = 1
 )
 
 type config struct {
@@ -66,25 +54,18 @@ func init() {
 
 func Run() {
 	//初始化中间件,路由,swagger等
-	tp, err := tracerProvider("http://localhost:14268/api/traces")
-	if err != nil {
-		log.Fatal(err)
-	}
+	ctx := context.Background()
 
-	otel.SetTracerProvider(tp)
+	// Configure OpenTelemetry with sensible defaults.
+	uptrace.ConfigureOpentelemetry(
+		// copy your project DSN here or use UPTRACE_DSN env var
+		uptrace.WithDSN("http://project2_secret_token@localhost:14317/2"),
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	// Cleanly shutdown and flush telemetry when the application exits.
-	defer func(ctx context.Context) {
-		// Do not make the application hang when it is shutdown.
-		ctx, cancel = context.WithTimeout(ctx, time.Second*5)
-		defer cancel()
-		if err := tp.Shutdown(ctx); err != nil {
-			log.Fatal(err)
-		}
-	}(ctx)
+		uptrace.WithServiceName("myservice"),
+		uptrace.WithServiceVersion("1.0.0"),
+	)
+	// Send buffered spans and free resources.
+	defer uptrace.Shutdown(ctx)
 
 	r := gin.New()
 
@@ -99,23 +80,4 @@ func Run() {
 	}
 	log.Fatal(server.ListenAndServe())
 
-}
-func tracerProvider(url string) (*tracesdk.TracerProvider, error) {
-	// Create the Jaeger exporter
-	exp, err := jaeger.New(jaeger.WithCollectorEndpoint(jaeger.WithEndpoint(url)))
-	if err != nil {
-		return nil, err
-	}
-	tp := tracesdk.NewTracerProvider(
-		// Always be sure to batch in production.
-		tracesdk.WithBatcher(exp),
-		// Record information about this application in a Resource.
-		tracesdk.WithResource(resource.NewWithAttributes(
-			semconv.SchemaURL,
-			semconv.ServiceName(service),
-			attribute.String("environment", environment),
-			attribute.Int64("ID", id),
-		)),
-	)
-	return tp, nil
 }
