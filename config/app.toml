@@ -22,4 +22,4 @@ maxSize = 1
 maxBackups = 30
 maxAges = 7
 compress = true
-level = "info"
+level = "debug"

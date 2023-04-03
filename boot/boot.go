@@ -82,27 +82,3 @@ func Run() {
 	log.Fatal(server.ListenAndServe())
 
 }
-
-//func Run2() {
-//	ctx := context.Background()
-//
-//	shutdown := otelplay.ConfigureOpentelemetry(ctx)
-//	defer shutdown()
-//
-//	tracer := otel.Tracer("app_or_package_name")
-//
-//	ctx, span := tracer.Start(ctx, "root")
-//	defer span.End()
-//
-//	// Use Ctx to propagate the active span.
-//	otelzap.Ctx(ctx).Error("都是渣渣",
-//		zap.Error(errors.New("hello world")),
-//		zap.String("foo", "bar"))
-//
-//	otelplay.PrintTraceID(ctx)
-//}
-//
-//var (
-//	once   sync.Once
-//	logger *otelzap.Logger
-//)

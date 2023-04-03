@@ -30,6 +30,13 @@ func (a *orderSrv) List(c *gin.Context, arg model.OrderListArg) (orders model.Or
 	defer span.End()
 
 	otelzap.Ctx(c.Request.Context()).Error("order-list", zap.String("name", "你这次不上百哦"))
+	otelzap.L().Info("replaced zap's global loggers")
+
+	otelzap.L().Info("replaced zap's global loggers")
+
+	otelzap.L().Info("replaced zap's global loggers")
+
+	otelzap.L().InfoContext(c.Request.Context(), "为啥info不打印")
 
 	a.Create(c)
 	return
