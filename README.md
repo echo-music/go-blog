@@ -205,6 +205,9 @@ https://github.com/open-telemetry/opentelemetry-go/tree/main/exporters/jaeger
 
 
 监控系统UI
+
+https://uptrace.dev/get/opentelemetry-go.html#getting-started
+
 https://github.com/uptrace/uptrace/blob/master/README.zh.md
 
 https://cloud.tencent.com/developer/article/2193995
