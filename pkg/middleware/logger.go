@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"bytes"
-	"fmt"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
@@ -23,6 +22,7 @@ func Logger(logger *otelzap.Logger) gin.HandlerFunc {
 		c.Writer = bodyLogWriter
 		c.Next()
 		span := trace.SpanFromContext(c.Request.Context())
+		defer span.End()
 		logContent := []zapcore.Field{
 			zap.Int("status", c.Writer.Status()),
 			zap.String("method", c.Request.Method),
@@ -34,31 +34,25 @@ func Logger(logger *otelzap.Logger) gin.HandlerFunc {
 			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
 			zap.Duration("cost", time.Since(start)),
 			zap.String("trace_id", span.SpanContext().TraceID().String()),
-			zap.String("span_id", span.SpanContext().SpanID().String()),
 		}
 
 		attr := []attribute.KeyValue{
-			attribute.Int("status", c.Writer.Status()),
-			attribute.String("method", c.Request.Method),
-			attribute.String("path", path),
-			attribute.String("query", query),
 			attribute.String("res", bodyLogWriter.Body.String()),
-			attribute.String("ip", c.ClientIP()),
-			attribute.String("user-agent", c.Request.UserAgent()),
 			attribute.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
-			attribute.String("cost", time.Since(start).String()),
 			attribute.String("trace_id", span.SpanContext().TraceID().String()),
-			attribute.String("span_id", span.SpanContext().SpanID().String()),
 		}
 
 		span.SetAttributes(attr...)
-		defer span.End()
+		if c.Errors != nil {
+			span.RecordError(c.Errors.ByType(gin.ErrorTypePrivate)[0], trace.WithTimestamp(time.Now()), trace.WithStackTrace(true))
+		}
 
-		if c.Writer.Status() != 200 || c.Errors != nil {
-			fmt.Println(c.Writer.Status())
-			logger.Ctx(c.Request.Context()).Error(path, logContent...)
-		} else {
-			logger.Ctx(c.Request.Context()).Info(path, logContent...)
+		if gin.Mode() == gin.DebugMode {
+			if c.Writer.Status() != 200 || c.Errors != nil {
+				logger.Error(path, logContent...)
+			} else {
+				logger.Info(path, logContent...)
+			}
 		}
 
 	}
