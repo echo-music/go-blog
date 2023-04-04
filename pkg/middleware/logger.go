@@ -51,7 +51,7 @@ func Logger(logger *otelzap.Logger) gin.HandlerFunc {
 			if c.Writer.Status() != 200 || c.Errors != nil {
 				logger.Error(path, logContent...)
 			} else {
-				logger.Info(path, logContent...)
+				logger.Debug(path, logContent...)
 			}
 		}
 
