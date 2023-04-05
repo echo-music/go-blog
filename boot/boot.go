@@ -17,6 +17,7 @@ import (
 
 type config struct {
 	App struct {
+		Mode    string
 		Name    string
 		Port    int
 		Version string
@@ -31,7 +32,7 @@ var Cfg config
 func Run() {
 
 	//设置debug模式
-	gin.SetMode(gin.DebugMode)
+	gin.SetMode(Cfg.App.Mode)
 
 	//读取配置文件
 	if _, err := toml.DecodeFile("./config/app.toml", &Cfg); err != nil {
