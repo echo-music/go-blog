@@ -16,16 +16,14 @@ import (
 )
 
 type config struct {
-	App    App
+	App struct {
+		Name    string
+		Port    int
+		Version string
+	}
 	Mysql  db.Config
 	Redis  cache.Config
 	Logger logs.Config
-}
-
-type App struct {
-	Name    string
-	Port    int
-	Version string
 }
 
 var Cfg config
@@ -40,15 +38,15 @@ func Run() {
 		panic("decode config file err")
 	}
 
+	//初始化日志
+	logs.Init(Cfg.Logger)
+	defer logs.Sync()
+
 	//初始化数据库
 	db.Init(Cfg.Mysql)
 
 	//初始化redis
 	cache.Init(Cfg.Redis)
-
-	//初始化日志
-	logs.Init(Cfg.Logger)
-	defer logs.Sync()
 
 	r := gin.New()
 	middleware.Init(r)
