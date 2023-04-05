@@ -6,7 +6,7 @@ import (
 	"github.com/echo-music/go-blog/internal/router"
 	"github.com/echo-music/go-blog/pkg/logs"
 	"github.com/echo-music/go-blog/pkg/middleware"
-	cache2 "github.com/echo-music/go-blog/pkg/store/cache"
+	"github.com/echo-music/go-blog/pkg/store/cache"
 	"github.com/echo-music/go-blog/pkg/store/mysql"
 	"github.com/echo-music/go-blog/swagger"
 	"github.com/fvbock/endless"
@@ -23,7 +23,7 @@ type config struct {
 		Version string
 	}
 	Mysql  mysql.Config
-	Redis  cache2.Config
+	Redis  cache.Config
 	Logger logs.Config
 }
 
@@ -47,7 +47,7 @@ func Run() {
 	mysql.Init(Cfg.Mysql)
 
 	//初始化redis
-	cache2.Init(Cfg.Redis)
+	cache.Init(Cfg.Redis)
 
 	r := gin.New()
 	middleware.Init(r)
