@@ -45,7 +45,7 @@ func (a *orderApi) List(c *gin.Context) {
 		return
 	}
 
-	response.Success(c, "订单列表", list)
+	response.Success(c, "订单列表大傻逼", list)
 }
 
 func (a *orderApi) Create(c *gin.Context) {

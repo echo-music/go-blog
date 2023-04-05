@@ -10,5 +10,10 @@ init:
 
 
 run:
-	swag init;go mod tidy;fresh
+	swag init;go mod tidy;fresh ## 热启动
+
+
+restart:
+	kill -1 `pgrep go-blog`;## 平滑重启
+
 

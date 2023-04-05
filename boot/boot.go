@@ -55,7 +55,6 @@ func Run() {
 	swagger.Init(r)
 
 	server := endless.NewServer(fmt.Sprintf(":%d", Cfg.App.Port), r)
-
 	server.BeforeBegin = func(add string) {
 		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
