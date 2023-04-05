@@ -1,7 +1,6 @@
 package boot
 
 import (
-	"context"
 	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/echo-music/go-blog/internal/router"
@@ -12,7 +11,6 @@ import (
 	"github.com/echo-music/go-blog/swagger"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
-	"github.com/uptrace/uptrace-go/uptrace"
 	"log"
 	"syscall"
 )
@@ -32,7 +30,8 @@ type App struct {
 
 var Cfg config
 
-func init() {
+func Run() {
+
 	//设置debug模式
 	gin.SetMode(gin.DebugMode)
 
@@ -49,27 +48,9 @@ func init() {
 
 	//初始化日志
 	logs.Init(Cfg.Logger)
-
-}
-
-func Run() {
-	////初始化中间件,路由,swagger等
-	ctx := context.Background()
-
-	// Configure OpenTelemetry with sensible defaults.
-	uptrace.ConfigureOpentelemetry(
-		// copy your project DSN here or use UPTRACE_DSN env var
-		uptrace.WithDSN("http://project2_secret_token@localhost:14317/2"),
-
-		uptrace.WithServiceName("myservice"),
-		uptrace.WithServiceVersion("1.0.0"),
-	)
-
-	// Send buffered spans and free resources.
-	defer uptrace.Shutdown(ctx)
+	defer logs.Sync()
 
 	r := gin.New()
-
 	middleware.Init(r)
 	router.Init(r)
 	swagger.Init(r)

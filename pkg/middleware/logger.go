@@ -4,15 +4,13 @@ import (
 	"bytes"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
-	"github.com/uptrace/opentelemetry-go-extra/otelzap"
-	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"
 )
 
-func Logger(logger *otelzap.Logger) gin.HandlerFunc {
+func Logger(logger *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		start := time.Now()
@@ -33,26 +31,12 @@ func Logger(logger *otelzap.Logger) gin.HandlerFunc {
 			zap.String("user-agent", c.Request.UserAgent()),
 			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
 			zap.Duration("cost", time.Since(start)),
-			zap.String("trace_id", span.SpanContext().TraceID().String()),
 		}
 
-		attr := []attribute.KeyValue{
-			attribute.String("res", bodyLogWriter.Body.String()),
-			attribute.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
-			attribute.String("trace_id", span.SpanContext().TraceID().String()),
-		}
-
-		span.SetAttributes(attr...)
-		if c.Errors != nil {
-			span.RecordError(c.Errors.ByType(gin.ErrorTypePrivate)[0], trace.WithTimestamp(time.Now()), trace.WithStackTrace(true))
-		}
-
-		if gin.Mode() == gin.DebugMode {
-			if c.Writer.Status() != 200 || c.Errors != nil {
-				logger.Error(path, logContent...)
-			} else {
-				logger.Debug(path, logContent...)
-			}
+		if c.Writer.Status() != 200 || c.Errors != nil {
+			logger.Error(path, logContent...)
+		} else {
+			logger.Info(path, logContent...)
 		}
 
 	}

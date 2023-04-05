@@ -2,7 +2,6 @@ package logs
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -21,10 +20,10 @@ type Config struct {
 }
 
 var once sync.Once
+var zapLog *zap.Logger
 
 // Init 初始化Logger
 func Init(cfg Config) {
-
 	once.Do(func() {
 		writeSyncer := getLogWriter(cfg.FileName, cfg.MaxSize, cfg.MaxBackups, cfg.MaxAges)
 		encoder := getEncoderConfig()
@@ -45,29 +44,28 @@ func Init(cfg Config) {
 		}
 		filed := zap.Fields(zap.String("serviceName", "blog"))
 
-		zapLog := zap.New(core, zap.AddCaller(), filed)
-		//zap.ReplaceGlobals(zapLog)
-		logger := otelzap.New(zapLog)
-		//defer logger.Sync()
-
-		_ = otelzap.ReplaceGlobals(logger)
-		//defer undo()
-
+		zapLog = zap.New(core, zap.AddCaller(), filed)
+		zap.ReplaceGlobals(zapLog)
 	})
+
 }
 
 //设置日志格式
 func getEncoderConfig() zapcore.Encoder {
 	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.MessageKey = "message"
 	encoderConfig.TimeKey = "time"
-	encoderConfig.EncodeTime = getEncodeTime
+	encoderConfig.EncodeTime = func(t time.Time, encoder zapcore.PrimitiveArrayEncoder) {
+		encoder.AppendString(t.Format("2006-01-02 15:04:05.000"))
+	}
 	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
 	encoderConfig.EncodeDuration = zapcore.SecondsDurationEncoder
 	encoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
+
+	encoderConfig.EncodeDuration = func(d time.Duration, enc zapcore.PrimitiveArrayEncoder) {
+		enc.AppendFloat64(float64(d) / float64(time.Millisecond))
+	}
 	return zapcore.NewJSONEncoder(encoderConfig)
-}
-func getEncodeTime(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-	enc.AppendString(t.Format("2006/01/02 - 15:04:05.000"))
 }
 
 //设置日志切割
@@ -79,4 +77,8 @@ func getLogWriter(filename string, maxSize, maxBackup, maxAge int) zapcore.Write
 		MaxAge:     maxAge,
 	}
 	return zapcore.AddSync(lumberJackLogger)
+}
+
+func Sync() {
+	zapLog.Sync()
 }
