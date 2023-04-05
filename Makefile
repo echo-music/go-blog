@@ -13,5 +13,5 @@ run:
 	swag init;go mod tidy;fresh ## 热启动
 
 restart:
-	[ -z "`pgrep $(APP_NAME)`" ] && ./$(APP_NAME) || kill -1 `pgrep $(APP_NAME)`
+	go build .;[ -z "`pgrep $(APP_NAME)`" ] && ./$(APP_NAME) || kill -1 `pgrep $(APP_NAME)`
 
