@@ -1,6 +1,6 @@
 ## make run 项目跑起来
 ## make swag 安装swag命令,此命令主要生成接口文档
-
+APP_NAME = go-blog
 init:
 	go get github.com/pilu/fresh
 	go install github.com/pilu/fresh
@@ -12,8 +12,6 @@ init:
 run:
 	swag init;go mod tidy;fresh ## 热启动
 
-
 restart:
-	kill -1 `pgrep go-blog`;## 平滑重启
-
+	[ -z "`pgrep $(APP_NAME)`" ] && ./$(APP_NAME) || kill -1 `pgrep $(APP_NAME)`
 
