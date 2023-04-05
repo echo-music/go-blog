@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/echo-music/go-blog/internal/router"
-	"github.com/echo-music/go-blog/pkg/cache"
-	"github.com/echo-music/go-blog/pkg/db"
 	"github.com/echo-music/go-blog/pkg/logs"
 	"github.com/echo-music/go-blog/pkg/middleware"
+	cache2 "github.com/echo-music/go-blog/pkg/store/cache"
+	"github.com/echo-music/go-blog/pkg/store/mysql"
 	"github.com/echo-music/go-blog/swagger"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
@@ -22,8 +22,8 @@ type config struct {
 		Port    int
 		Version string
 	}
-	Mysql  db.Config
-	Redis  cache.Config
+	Mysql  mysql.Config
+	Redis  cache2.Config
 	Logger logs.Config
 }
 
@@ -44,10 +44,10 @@ func Run() {
 	defer logs.Sync()
 
 	//初始化数据库
-	db.Init(Cfg.Mysql)
+	mysql.Init(Cfg.Mysql)
 
 	//初始化redis
-	cache.Init(Cfg.Redis)
+	cache2.Init(Cfg.Redis)
 
 	r := gin.New()
 	middleware.Init(r)
