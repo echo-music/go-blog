@@ -21,6 +21,7 @@ type Config struct {
 
 var once sync.Once
 var zapLog *zap.Logger
+var writeSyncer zapcore.WriteSyncer
 
 // Init 初始化Logger
 func Init(cfg Config) {
@@ -32,7 +33,7 @@ func Init(cfg Config) {
 			MaxBackups: cfg.MaxBackups,
 			MaxAge:     cfg.MaxAges,
 		}
-		writeSyncer := zapcore.AddSync(lumberJackLogger)
+		writeSyncer = zapcore.AddSync(lumberJackLogger)
 
 		var l = new(zapcore.Level)
 		if err := l.UnmarshalText([]byte(cfg.Level)); err != nil {
@@ -77,4 +78,8 @@ func getEncoderConfig() zapcore.Encoder {
 
 func Sync() {
 	zapLog.Sync()
+}
+
+func Writer() zapcore.WriteSyncer {
+	return writeSyncer
 }

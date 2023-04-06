@@ -9,7 +9,7 @@ import (
 func Init(r *gin.Engine) {
 	r.Use(
 		Logger(zap.L()),
-		Recovery(zap.L(), true),
+		Recovery(zap.L()),
 		cors.Default(),
 		Catch(),
 	)
