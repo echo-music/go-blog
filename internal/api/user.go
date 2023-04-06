@@ -26,8 +26,8 @@ func (a *userApi) Router(r *gin.Engine) {
 }
 
 // List
-// @Summary 订单列表
-// @Tags 订单管理
+// @Summary 用户列表
+// @Tags 用户管理
 // @param   _ query model.userListArg _ "_"
 // @success	200 {object} response.Result{data=model.userListRet} "_"
 // @Router /users [get]
@@ -45,20 +45,20 @@ func (a *userApi) List(c *gin.Context) {
 		return
 	}
 
-	response.Success(c, "订单列表大傻逼", list)
+	response.Success(c, "用户列表大傻逼", list)
 }
 
 func (a *userApi) Create(c *gin.Context) {
 
-	response.Success(c, "订单创建", nil)
+	response.Success(c, "用户创建", nil)
 }
 
 func (a *userApi) Update(c *gin.Context) {
-	err := gerror.New(errors.New("订单号不能为空"))
+	err := gerror.New(errors.New("用户号不能为空"))
 
 	if err != nil {
 		c.Error(err)
 		return
 	}
-	response.Success(c, "修改订单", nil)
+	response.Success(c, "修改用户", nil)
 }
