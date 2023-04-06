@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
-	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"
@@ -15,17 +14,14 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 
 		start := time.Now()
 		path := c.Request.URL.Path
-		query := c.Request.URL.RawQuery
 		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
 		c.Next()
-		span := trace.SpanFromContext(c.Request.Context())
-		defer span.End()
 		logContent := []zapcore.Field{
 			zap.Int("status", c.Writer.Status()),
 			zap.String("method", c.Request.Method),
-			zap.String("path", path),
-			zap.String("query", query),
+			zap.String("path", c.Request.URL.Path),
+			zap.String("query", c.Request.URL.RawQuery),
 			zap.String("res", bodyLogWriter.Body.String()),
 			zap.String("ip", c.ClientIP()),
 			zap.String("user-agent", c.Request.UserAgent()),

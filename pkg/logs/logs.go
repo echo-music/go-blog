@@ -25,14 +25,22 @@ var zapLog *zap.Logger
 // Init 初始化Logger
 func Init(cfg Config) {
 	once.Do(func() {
-		writeSyncer := getLogWriter(cfg.FileName, cfg.MaxSize, cfg.MaxBackups, cfg.MaxAges)
-		encoder := getEncoderConfig()
+
+		lumberJackLogger := &lumberjack.Logger{
+			Filename:   cfg.FileName,
+			MaxSize:    cfg.MaxSize,
+			MaxBackups: cfg.MaxBackups,
+			MaxAge:     cfg.MaxAges,
+		}
+		writeSyncer := zapcore.AddSync(lumberJackLogger)
+
 		var l = new(zapcore.Level)
 		if err := l.UnmarshalText([]byte(cfg.Level)); err != nil {
 			panic(err)
 		}
 
 		var core zapcore.Core
+		encoder := getEncoderConfig()
 		if gin.Mode() == gin.DebugMode {
 			core = zapcore.NewCore(
 				encoder,
@@ -42,8 +50,8 @@ func Init(cfg Config) {
 		} else {
 			core = zapcore.NewCore(encoder, writeSyncer, l)
 		}
-		filed := zap.Fields(zap.String("serviceName", "blog"))
 
+		filed := zap.Fields(zap.String("serviceName", "go-blog"))
 		zapLog = zap.New(core, zap.AddCaller(), filed)
 		zap.ReplaceGlobals(zapLog)
 	})
@@ -61,22 +69,10 @@ func getEncoderConfig() zapcore.Encoder {
 	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
 	encoderConfig.EncodeDuration = zapcore.SecondsDurationEncoder
 	encoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
-
 	encoderConfig.EncodeDuration = func(d time.Duration, enc zapcore.PrimitiveArrayEncoder) {
 		enc.AppendFloat64(float64(d) / float64(time.Millisecond))
 	}
 	return zapcore.NewJSONEncoder(encoderConfig)
-}
-
-//设置日志切割
-func getLogWriter(filename string, maxSize, maxBackup, maxAge int) zapcore.WriteSyncer {
-	lumberJackLogger := &lumberjack.Logger{
-		Filename:   filename,
-		MaxSize:    maxSize,
-		MaxBackups: maxBackup,
-		MaxAge:     maxAge,
-	}
-	return zapcore.AddSync(lumberJackLogger)
 }
 
 func Sync() {
