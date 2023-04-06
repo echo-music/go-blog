@@ -16,6 +16,7 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 		start := time.Now()
 		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
+
 		c.Next()
 		logContent := []zapcore.Field{
 			zap.Int("status", c.Writer.Status()),
