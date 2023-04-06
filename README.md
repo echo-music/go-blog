@@ -1,7 +1,9 @@
 # go-blog
 
 这是用gin搭建的app用例,如果你是小白，那它适合你练手！
+
 ## gin 框架文档
+
 https://gin-gonic.com/docs/examples/serving-data-from-reader/
 
 1. 新增日志中间件
@@ -14,11 +16,12 @@ https://gin-gonic.com/docs/examples/serving-data-from-reader/
 
 5. 新增热启动(执行make run即可)
 
-6. 新增平滑启动(kill -1 pid)
+6. 新增平滑启动
 
 ## 一、项目结构说明
 
 ```
+.
 ├── Makefile
 ├── README.md
 ├── boot
@@ -29,23 +32,18 @@ https://gin-gonic.com/docs/examples/serving-data-from-reader/
 │   ├── docs.go
 │   ├── swagger.json
 │   └── swagger.yaml
+├── go-blog
 ├── go.mod
 ├── go.sum
 ├── internal
 │   ├── api
-│   │   └── order.go
+│   │   └── user.go
 │   ├── router
 │   │   └── router.go
 │   └── service
 │       └── order.go
 ├── main.go
 ├── pkg
-│   ├── cache
-│   │   ├── cache.go
-│   │   └── config.go
-│   ├── db
-│   │   ├── config.go
-│   │   └── db.go
 │   ├── gerror
 │   │   ├── code.go
 │   │   ├── gerror.go
@@ -58,18 +56,26 @@ https://gin-gonic.com/docs/examples/serving-data-from-reader/
 │   │   ├── middleware.go
 │   │   └── recovery.go
 │   ├── model
-│   │   └── order.go
-│   └── response
-│       └── response.go
+│   │   └── user.go
+│   ├── response
+│   │   └── response.go
+│   └── store
+│       ├── cache
+│       │   ├── cache.go
+│       │   └── config.go
+│       └── mysql
+│           ├── config.go
+│           └── db.go
 ├── runtime
 │   └── logs
-│       ├── a-2023-02-27T10-28-57.646.log
-│       ├── a-2023-02-27T10-29-01.987.log
-│       ├── a-2023-02-27T10-29-05.857.log
-│       ├── a-2023-02-27T10-41-41.139.log
 │       └── a.log
-└── swagger
-    └── swagger.go
+├── swagger
+│   └── swagger.go
+└── tmp
+    └── runner-build
+
+
+
 
 ```
 
@@ -146,7 +152,9 @@ go mod tidy
 注意:确保go.mod文件存在，否则执行 go mod init github.com/echo-music/go-blog ）
 
 ```
+
 ### 4) 新建user表
+
 ```
 CREATE TABLE `user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -154,8 +162,6 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
-
-
 
 ### 4）项目配置文件,修改数据库，redis配置
 
@@ -187,8 +193,6 @@ compress = true
 level = ""
 ```
 
-
-
 ### 5）项目跑起来（项目根目录下执行）
 
 ```
@@ -207,14 +211,10 @@ http://127.0.0.1:8081/users/
 
 http://localhost:8081/swagger/index.html
 
-
-
-
 ### 8）接入链路追踪
 
 接入jaeger链路追踪
 https://github.com/open-telemetry/opentelemetry-go/tree/main/exporters/jaeger
-
 
 监控系统UI
 
