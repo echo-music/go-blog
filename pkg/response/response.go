@@ -38,7 +38,6 @@ func Error(c *gin.Context, e error) {
 	case gerror.ResponseCode.Exception:
 		msg = gerror.ResponseMsg.Exception
 	}
-
 	c.JSON(http.StatusOK, Result{
 		Code: code,
 		Msg:  msg,

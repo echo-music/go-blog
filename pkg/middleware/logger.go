@@ -35,6 +35,5 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 		} else {
 			logger.Info(msg, logContent...)
 		}
-
 	}
 }

@@ -13,7 +13,6 @@ func Catch() gin.HandlerFunc {
 		if length <= 0 {
 			return
 		}
-
 		e := c.Errors[length-1]
 		response.Error(c, e)
 		return
