@@ -9,18 +9,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type orderApi struct {
+type userApi struct {
 }
 
-var Order orderApi
+var User userApi
 
-func (a *orderApi) Router(r *gin.Engine) {
-	order := r.Group("/orders")
-	order.Use()
+func (a *userApi) Router(r *gin.Engine) {
+	user := r.Group("/users")
+	user.Use()
 	{
-		order.GET("/", Order.List)
-		order.POST("/", Order.Create)
-		order.PUT("/", Order.Update)
+		user.GET("/", User.List)
+		user.POST("/", User.Create)
+		user.PUT("/", User.Update)
 
 	}
 }
@@ -28,18 +28,18 @@ func (a *orderApi) Router(r *gin.Engine) {
 // List
 // @Summary 订单列表
 // @Tags 订单管理
-// @param   _ query model.OrderListArg _ "_"
-// @success	200 {object} response.Result{data=model.OrderListRet} "_"
-// @Router /orders [get]
-func (a *orderApi) List(c *gin.Context) {
+// @param   _ query model.userListArg _ "_"
+// @success	200 {object} response.Result{data=model.userListRet} "_"
+// @Router /users [get]
+func (a *userApi) List(c *gin.Context) {
 
-	var arg model.OrderListArg
+	var arg model.UserListArg
 	if err := c.ShouldBindQuery(&arg); err != nil {
 		c.Error(err)
 		return
 	}
 
-	list, err := service.Order.List(c, arg)
+	list, err := service.User.List(c, arg)
 	if err != nil {
 		c.Error(err)
 		return
@@ -48,12 +48,12 @@ func (a *orderApi) List(c *gin.Context) {
 	response.Success(c, "订单列表大傻逼", list)
 }
 
-func (a *orderApi) Create(c *gin.Context) {
+func (a *userApi) Create(c *gin.Context) {
 
 	response.Success(c, "订单创建", nil)
 }
 
-func (a *orderApi) Update(c *gin.Context) {
+func (a *userApi) Update(c *gin.Context) {
 	err := gerror.New(errors.New("订单号不能为空"))
 
 	if err != nil {

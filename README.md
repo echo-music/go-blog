@@ -146,6 +146,16 @@ go mod tidy
 注意:确保go.mod文件存在，否则执行 go mod init github.com/echo-music/go-blog ）
 
 ```
+### 4) 新建user表
+```
+CREATE TABLE `user` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+
 
 ### 4）项目配置文件,修改数据库，redis配置
 
@@ -177,6 +187,8 @@ compress = true
 level = ""
 ```
 
+
+
 ### 5）项目跑起来（项目根目录下执行）
 
 ```
@@ -189,7 +201,7 @@ make run
 
 ### 6) 访问接口
 
-http://127.0.0.1:8081/orders/
+http://127.0.0.1:8081/users/
 
 ### 7) 访问swagger接口文档
 

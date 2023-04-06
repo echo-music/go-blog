@@ -8,7 +8,7 @@ import (
 func Init(r *gin.Engine) {
 
 	// order router
-	api.Order.Router(r)
+	api.User.Router(r)
 
 	// goods router
 

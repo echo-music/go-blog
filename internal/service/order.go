@@ -8,17 +8,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type orderSrv struct {
+type userSrv struct {
 }
 
-var Order orderSrv
+var User userSrv
 
-func (a *orderSrv) List(c *gin.Context, arg model.OrderListArg) (orders model.OrderListRet, err error) {
-	err = mysql.DB().Model(&model.Order{}).Scan(&orders.List).Error
+func (a *userSrv) List(c *gin.Context, arg model.UserListArg) (users model.UserListRet, err error) {
+	err = mysql.DB().Model(&model.User{}).Scan(&users.List).Error
 	return
 }
 
-func (a *orderSrv) Create(c *gin.Context) {
+func (a *userSrv) Create(c *gin.Context) {
 	err := gerror.New(errors.New("订单号不能为空"))
 	if err != nil {
 		return
@@ -26,7 +26,7 @@ func (a *orderSrv) Create(c *gin.Context) {
 
 }
 
-func (a *orderSrv) Update(c *gin.Context) {
+func (a *userSrv) Update(c *gin.Context) {
 	err := gerror.New(errors.New("订单号不能为空"))
 	if err != nil {
 		return
