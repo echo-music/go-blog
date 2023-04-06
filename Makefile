@@ -8,10 +8,12 @@ init:
 	swag init
 	go mod tidy
 
-
 run:
 	swag init;go mod tidy;fresh ## 热启动
 
 restart:
-	go build .;[ -z "`pgrep $(APP_NAME)`" ] && ./$(APP_NAME) || kill -1 `pgrep $(APP_NAME)`
+	go build .;[ -z "`pgrep $(APP_NAME)`" ] && ./$(APP_NAME) || kill -1 `pgrep $(APP_NAME)` ## 平滑重启
+
+stop:
+	kill -2 `pgrep $(APP_NAME)` ## 平滑停止
 
