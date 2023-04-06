@@ -11,6 +11,7 @@ func Init(r *gin.Engine) {
 		Logger(zap.L()),
 		Recovery(zap.L()),
 		cors.Default(),
+		RequestID(),
 		Catch(),
 	)
 }
