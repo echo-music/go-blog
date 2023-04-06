@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"net/http"
 	"time"
 )
 
@@ -13,7 +14,6 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		start := time.Now()
-		path := c.Request.URL.Path
 		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
 		c.Next()
@@ -28,11 +28,11 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
 			zap.Duration("cost", time.Since(start)),
 		}
-
+		msg := http.StatusText(c.Writer.Status())
 		if c.Writer.Status() != 200 || c.Errors != nil {
-			logger.Error(path, logContent...)
+			logger.Error(msg, logContent...)
 		} else {
-			logger.Info(path, logContent...)
+			logger.Info(msg, logContent...)
 		}
 
 	}
