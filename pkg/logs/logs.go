@@ -1,6 +1,8 @@
 package logs
 
 import (
+	"fmt"
+	"github.com/echo-music/go-blog/pkg/known"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -82,4 +84,13 @@ func Sync() {
 
 func Writer() zapcore.WriteSyncer {
 	return writeSyncer
+}
+
+func Ctx(c *gin.Context) *zap.Logger {
+	l := zapLog
+	if requestId := c.Value(known.XRequestIDKey); requestId != nil {
+		l = l.With(zap.Any("request-id", requestId))
+	}
+	fmt.Printf("%p\n", l)
+	return l
 }

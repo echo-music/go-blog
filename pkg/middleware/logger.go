@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"bytes"
+	"github.com/echo-music/go-blog/pkg/logs"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -10,14 +11,14 @@ import (
 	"time"
 )
 
-func Logger(logger *zap.Logger) gin.HandlerFunc {
+func Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		start := time.Now()
 		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
-
 		c.Next()
+
 		logContent := []zapcore.Field{
 			zap.Int("status", c.Writer.Status()),
 			zap.String("method", c.Request.Method),
@@ -31,9 +32,9 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 		}
 		msg := http.StatusText(c.Writer.Status())
 		if c.Writer.Status() != 200 || c.Errors != nil {
-			logger.Error(msg, logContent...)
+			logs.Ctx(c).Error(msg, logContent...)
 		} else {
-			logger.Info(msg, logContent...)
+			logs.Ctx(c).Info(msg, logContent...)
 		}
 	}
 }

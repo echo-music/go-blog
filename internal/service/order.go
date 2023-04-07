@@ -14,7 +14,7 @@ type userSrv struct {
 var User userSrv
 
 func (a *userSrv) List(c *gin.Context, arg model.UserListArg) (users model.UserListRet, err error) {
-	err = mysql.DB().Model(&model.User{}).Scan(&users.List).Error
+	err = mysql.DB().Debug().Model(&model.User{}).Scan(&users.List).Error
 	return
 }
 
