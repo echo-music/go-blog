@@ -11,7 +11,7 @@ import (
 var cache *redis.Client
 var once sync.Once
 
-func Cache() *redis.Client {
+func Redis() *redis.Client {
 	return cache
 }
 
@@ -28,7 +28,6 @@ func Init(cfg Config) {
 			panic(fmt.Sprintf("Redis connect ping failed, err:%+v", err))
 		}
 	})
-
 }
 
 func Set(key string, value interface{}, expire time.Duration) (err error) {
