@@ -8,7 +8,6 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"net/http"
-	"runtime/debug"
 	"strings"
 	"time"
 )
@@ -38,9 +37,6 @@ func Logger() gin.HandlerFunc {
 
 		msg := http.StatusText(c.Writer.Status())
 		if c.Writer.Status() != 200 || c.Errors != nil {
-			stack := strings.Fields(string(debug.Stack()))
-			c.JSON(500, stack)
-
 			zap.L().Error(msg, logContent...)
 		} else {
 			zap.L().Info(msg, logContent...)
