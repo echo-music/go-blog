@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/echo-music/go-blog/internal/router"
+	"github.com/echo-music/go-blog/pkg/cache"
+	"github.com/echo-music/go-blog/pkg/db"
 	"github.com/echo-music/go-blog/pkg/logs"
 	"github.com/echo-music/go-blog/pkg/middleware"
-	"github.com/echo-music/go-blog/pkg/store/cache"
-	"github.com/echo-music/go-blog/pkg/store/mysql"
 	"github.com/echo-music/go-blog/swagger"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
@@ -22,7 +22,7 @@ type config struct {
 		Port    int
 		Version string
 	}
-	Mysql  mysql.Config
+	Mysql  db.Config
 	Redis  cache.Config
 	Logger logs.Config
 }
@@ -44,7 +44,7 @@ func Run() {
 	defer logs.Sync()
 
 	//初始化数据库
-	mysql.Init(Cfg.Mysql)
+	db.Init(Cfg.Mysql)
 
 	//初始化redis
 	cache.Init(Cfg.Redis)

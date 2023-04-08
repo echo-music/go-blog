@@ -2,9 +2,9 @@ package service
 
 import (
 	"errors"
+	"github.com/echo-music/go-blog/pkg/db"
 	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/echo-music/go-blog/pkg/model"
-	"github.com/echo-music/go-blog/pkg/store/mysql"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +14,7 @@ type userSrv struct {
 var User userSrv
 
 func (a *userSrv) List(c *gin.Context, arg model.UserListArg) (users model.UserListRet, err error) {
-	err = mysql.DB().Debug().Model(&model.User{}).Scan(&users.List).Error
+	err = db.DB().Debug().Model(&model.User{}).Scan(&users.List).Error
 	return
 }
 
