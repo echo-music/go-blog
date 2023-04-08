@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"bytes"
-	"github.com/echo-music/go-blog/pkg/g"
+	"github.com/echo-music/go-blog/pkg/known"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -18,7 +18,9 @@ func Logger() gin.HandlerFunc {
 		bodyLogWriter := &response.BodyLogWriter{Body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
 		c.Next()
+
 		logContent := []zapcore.Field{
+			zap.Any(known.XRequestIDKey, c.Value(known.XRequestIDKey)),
 			zap.Int("status", c.Writer.Status()),
 			zap.String("method", c.Request.Method),
 			zap.String("path", c.Request.URL.Path),
@@ -31,9 +33,9 @@ func Logger() gin.HandlerFunc {
 		}
 		msg := http.StatusText(c.Writer.Status())
 		if c.Writer.Status() != 200 || c.Errors != nil {
-			g.Zap(c).Error(msg, logContent...)
+			zap.L().Error(msg, logContent...)
 		} else {
-			g.Zap(c).Info(msg, logContent...)
+			zap.L().Info(msg, logContent...)
 		}
 	}
 }
