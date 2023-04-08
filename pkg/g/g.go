@@ -18,6 +18,6 @@ func DB() *gorm.DB {
 	return db.DB()
 }
 
-func Zap(c *gin.Context) *zap.Logger {
+func Log(c *gin.Context) *zap.Logger {
 	return logs.Ctx(c)
 }
