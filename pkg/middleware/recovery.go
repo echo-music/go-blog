@@ -18,14 +18,14 @@ func defaultHandleRecovery(c *gin.Context, err interface{}) {
 }
 
 func Recovery() gin.HandlerFunc {
-	return CustomRecovery(zap.L(), true, defaultHandleRecovery)
+	return CustomRecovery(true, defaultHandleRecovery)
 }
 
-func CustomRecovery(logger *zap.Logger, stack bool, recovery gin.RecoveryFunc) gin.HandlerFunc {
+func CustomRecovery(stack bool, recovery gin.RecoveryFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 
-			logger = logs.Ctx(c)
+			logger := logs.Ctx(c)
 			if err := recover(); err != nil {
 				// Check for a broken connection, as it is not really a
 				// condition that warrants a panic stack trace.
