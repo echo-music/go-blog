@@ -50,6 +50,7 @@ func Run() {
 	cache.Init(Cfg.Redis)
 
 	r := gin.New()
+
 	middleware.Init(r)
 	router.Init(r)
 	swagger.Init(r)
