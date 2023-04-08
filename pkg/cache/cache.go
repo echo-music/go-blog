@@ -12,7 +12,7 @@ var once sync.Once
 
 func Redis() *redis.Client {
 	if cli == nil {
-		panic("未初始化redis客户端")
+		panic("未初始化redis")
 	}
 	return cli
 }

@@ -11,6 +11,9 @@ var db *gorm.DB
 var once sync.Once
 
 func DB() *gorm.DB {
+	if db == nil {
+		panic("未初始化mysql")
+	}
 	return db
 }
 
