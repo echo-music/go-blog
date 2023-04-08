@@ -6,7 +6,6 @@ import (
 )
 
 func Init(r *gin.Engine) {
-
 	mws := []gin.HandlerFunc{
 		RequestID(),    //客户端请求ID
 		Recovery(),     //系统异常
