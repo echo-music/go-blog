@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"os"
-	"runtime/debug"
 	"strings"
 	"time"
 )
@@ -55,7 +54,6 @@ func CustomRecovery(stack bool, recovery gin.RecoveryFunc) gin.HandlerFunc {
 						zap.Time("time", time.Now()),
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
-						zap.String("stack", string(debug.Stack())),
 					)
 				} else {
 					logger.Error("[Recovery from panic]",

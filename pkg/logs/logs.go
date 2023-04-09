@@ -54,7 +54,7 @@ func Init(cfg Config) {
 		}
 
 		filed := zap.Fields(zap.String("serviceName", "go-blog"))
-		zapLog = zap.New(core, zap.AddCaller(), filed)
+		zapLog = zap.New(core, zap.AddCaller(), zap.AddStacktrace(zap.ErrorLevel), filed)
 		zap.ReplaceGlobals(zapLog)
 	})
 
@@ -73,6 +73,9 @@ func getEncoderConfig() zapcore.Encoder {
 	encoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
 	encoderConfig.EncodeDuration = func(d time.Duration, enc zapcore.PrimitiveArrayEncoder) {
 		enc.AppendFloat64(float64(d) / float64(time.Millisecond))
+	}
+	if gin.Mode() == gin.DebugMode {
+		return zapcore.NewConsoleEncoder(encoderConfig)
 	}
 	return zapcore.NewJSONEncoder(encoderConfig)
 }
