@@ -10,6 +10,7 @@ func Init(r *gin.Engine) {
 		Logger(),    //请求日志
 		Recovery(),  //系统异常
 		Cors(),      //跨域
+		Csrf(),      //csrf
 		Catch(),     //错误输出
 	}
 	r.Use(mws...)
