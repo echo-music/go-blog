@@ -88,7 +88,7 @@ func Writer() zapcore.WriteSyncer {
 func Ctx(c *gin.Context) *zap.Logger {
 	l := zapLog
 	if requestId := c.Value(known.XRequestIDKey); requestId != nil {
-		l = l.With(zap.Any("request-id", requestId))
+		l = l.With(zap.Any(known.XRequestIDKey, requestId))
 	}
 	return l
 }
