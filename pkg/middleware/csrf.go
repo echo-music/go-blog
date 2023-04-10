@@ -14,10 +14,12 @@ import (
 func Csrf() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//取cookie的csrf的随机值
-		cookie, _ := c.Request.Cookie(known.CsrfKey)
-
+		cookieToken := ""
+		cookie, err := c.Request.Cookie(known.CsrfKey)
+		if err == nil {
+			cookieToken = cookie.Value
+		}
 		//未取到该值重新设置
-		cookieToken := cookie.Value
 		if cookieToken == "" {
 			tokenUid, err := uuid.NewUUID()
 			if err != nil {
