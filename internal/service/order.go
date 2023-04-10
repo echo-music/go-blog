@@ -15,7 +15,7 @@ type userSrv struct {
 var User userSrv
 
 func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.UserListRet, err error) {
-	panic("dewdew")
+
 	err = g.DB().Model(&model.User{}).Scan(&users.List).Error
 	return
 }
