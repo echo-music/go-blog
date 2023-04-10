@@ -15,8 +15,8 @@ func Csrf() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//取cookie的csrf的随机值
 		cookieToken := ""
-		cookie, err := c.Request.Cookie(known.CsrfKey)
-		if err == nil {
+		cookie, _ := c.Request.Cookie(known.CsrfKey)
+		if cookie != nil {
 			cookieToken = cookie.Value
 		}
 		//未取到该值重新设置
