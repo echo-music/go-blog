@@ -59,5 +59,6 @@ func Run() {
 	server.BeforeBegin = func(add string) {
 		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
+
 	log.Fatal(server.ListenAndServe())
 }
