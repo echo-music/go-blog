@@ -23,6 +23,8 @@ func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.Use
 		return users, nil
 	}
 
+	return res, gerror.New("获取列表失败")
+
 	_, err = single.Do("cache", func() (interface{}, error) {
 		fmt.Println("查询db")
 		err = g.DB().Model(&model.User{}).Scan(&res.List).Error
