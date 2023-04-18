@@ -6,6 +6,7 @@ import (
 	"github.com/echo-music/go-blog/pkg/api/goblog"
 	"github.com/echo-music/go-blog/pkg/g"
 	"github.com/echo-music/go-blog/pkg/gerror"
+	"github.com/echo-music/go-learn/events"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +16,7 @@ type userSrv struct {
 var User userSrv
 
 func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.UserListRet, err error) {
-
+	events.Handler(nil)
 	err = g.DB().Model(&model.User{}).Scan(&users.List).Error
 	return
 }
