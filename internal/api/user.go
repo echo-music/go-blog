@@ -1,7 +1,6 @@
 package api
 
 import (
-	"errors"
 	"github.com/echo-music/go-blog/internal/service"
 	"github.com/echo-music/go-blog/pkg/api/goblog"
 	"github.com/echo-music/go-blog/pkg/gerror"
@@ -54,7 +53,7 @@ func (a *userApi) Create(c *gin.Context) {
 }
 
 func (a *userApi) Update(c *gin.Context) {
-	err := gerror.New(errors.New("用户号不能为空"))
+	err := gerror.New("用户号不能为空")
 
 	if err != nil {
 		c.Error(err)

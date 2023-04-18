@@ -1,13 +1,14 @@
 package gerror
 
 var ResponseCode struct {
-	Success         int
-	Failure         int
-	Unauthorized    int
-	Forbidden       int
-	Timeout         int
-	Exception       int
-	TooManyRequests int
+	Success          int
+	Failure          int
+	Unauthorized     int
+	Forbidden        int
+	Timeout          int
+	Exception        int
+	TooManyRequests  int
+	InvalidParameter int
 }
 
 func init() {

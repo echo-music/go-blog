@@ -1,7 +1,6 @@
 package service
 
 import (
-	"errors"
 	"fmt"
 	"github.com/echo-music/go-blog/internal/model"
 	"github.com/echo-music/go-blog/pkg/api/goblog"
@@ -39,7 +38,7 @@ func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.Use
 }
 
 func (a *userSrv) Create(c *gin.Context) {
-	err := gerror.New(errors.New("订单号不能为空"))
+	err := gerror.New("订单号不能为空")
 	if err != nil {
 		return
 	}
@@ -47,7 +46,7 @@ func (a *userSrv) Create(c *gin.Context) {
 }
 
 func (a *userSrv) Update(c *gin.Context) {
-	err := gerror.New(errors.New("订单号不能为空"))
+	err := gerror.New("订单号不能为空")
 	if err != nil {
 		return
 	}
