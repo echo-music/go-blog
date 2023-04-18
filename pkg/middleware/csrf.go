@@ -39,7 +39,7 @@ func Csrf() gin.HandlerFunc {
 			}
 
 			if !strings.EqualFold(cookieToken, token) {
-				c.AbortWithError(http.StatusForbidden, errors.New("invalid CSRF token"))
+				response.Error(c, errors.New("invalid CSRF token"))
 				return
 			}
 		}
