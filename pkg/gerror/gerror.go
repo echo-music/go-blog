@@ -1,6 +1,7 @@
 package gerror
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
 
@@ -28,6 +29,9 @@ func Code(err error) int {
 func Stack(err error) error {
 	if se := new(MyError); errors.As(err, &se) {
 		return se.err
+	}
+	if se := new(gin.Error); errors.As(err, &se) {
+		return se.Err
 	}
 
 	return err

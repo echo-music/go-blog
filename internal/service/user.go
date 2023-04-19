@@ -5,7 +5,6 @@ import (
 	"github.com/echo-music/go-blog/internal/model"
 	"github.com/echo-music/go-blog/pkg/api/goblog"
 	"github.com/echo-music/go-blog/pkg/g"
-	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/groupcache/singleflight"
 	"github.com/pkg/errors"
@@ -26,7 +25,7 @@ func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.Use
 	}
 
 	if _, err := os.Open("a.txt"); err != nil {
-		return res, gerror.NewWithCode(100, errors.WithStack(err))
+		return res, errors.WithStack(err)
 	}
 
 	_, err = single.Do("cache", func() (interface{}, error) {
