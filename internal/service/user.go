@@ -3,7 +3,7 @@ package service
 import (
 	"fmt"
 	"github.com/echo-music/go-blog/internal/model"
-	"github.com/echo-music/go-blog/pkg/api/goblog"
+	"github.com/echo-music/go-blog/pkg/api/blog"
 	"github.com/echo-music/go-blog/pkg/g"
 	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/gin-gonic/gin"
@@ -17,9 +17,9 @@ type userSrv struct {
 
 var single singleflight.Group
 var User userSrv
-var res goblog.UserListRet
+var res blog.UserListRet
 
-func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.UserListRet, err error) {
+func (a *userSrv) List(c *gin.Context, arg blog.UserListArg) (users blog.UserListRet, err error) {
 	if len(res.List) > 0 {
 		users = res
 		return users, nil

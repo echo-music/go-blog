@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/echo-music/go-blog/internal/service"
-	"github.com/echo-music/go-blog/pkg/api/goblog"
+	"github.com/echo-music/go-blog/pkg/api/blog"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
 )
@@ -26,12 +26,12 @@ func (a *userApi) Router(r *gin.Engine) {
 // List
 // @Summary 用户列表
 // @Tags 用户管理
-// @param   _ query goblog.UserListArg _ "_"
-// @success	200 {object} response.Result{data=goblog.UserListRet} "_"
+// @param   _ query blog.UserListArg _ "_"
+// @success	200 {object} response.Result{data=blog.UserListRet} "_"
 // @Router /users [get]
 func (a *userApi) List(c *gin.Context) {
 
-	var arg goblog.UserListArg
+	var arg blog.UserListArg
 	if err := c.ShouldBindQuery(&arg); err != nil {
 		c.Error(err)
 		return

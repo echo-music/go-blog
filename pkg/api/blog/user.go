@@ -1,4 +1,4 @@
-package goblog
+package blog
 
 type UserCreateArg struct {
 }
