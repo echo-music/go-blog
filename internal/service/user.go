@@ -8,6 +8,7 @@ import (
 	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/groupcache/singleflight"
+	"github.com/pkg/errors"
 	"os"
 )
 
@@ -25,7 +26,7 @@ func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.Use
 	}
 
 	if _, err := os.Open("a.txt"); err != nil {
-		return res, err
+		return res, errors.WithStack(err)
 	}
 
 	_, err = single.Do("cache", func() (interface{}, error) {
