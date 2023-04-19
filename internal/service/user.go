@@ -24,7 +24,6 @@ func (a *userSrv) List(c *gin.Context, arg blog.UserListArg) (users blog.UserLis
 		users = res
 		return users, nil
 	}
-
 	if _, err = os.Open("a.txt"); err != nil {
 		return res, gerror.New(errors.WithStack(err))
 	}
