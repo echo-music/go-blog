@@ -1,40 +1,49 @@
 package gerror
 
-import "github.com/pkg/errors"
+import (
+	"github.com/pkg/errors"
+)
 
 const (
 	CodeNil = -1
 )
 
 type MyError struct {
-	msg  string
+	err  error
 	code int
 }
 
 func (e MyError) Error() string {
-	return e.msg
+	return e.err.Error()
 }
 
 func Code(err error) int {
 
-	if se := new(MyError); errors.As(err, &se) {
-		return se.code
+	if e := new(MyError); errors.As(err, &e) {
+		return e.code
 	}
 
 	return CodeNil
 }
+func Stack(err error) error {
+	if se := new(MyError); errors.As(err, &se) {
+		return se.err
+	}
 
-func New(err string) error {
-	return MyError{
+	return err
+}
+
+func New(err error) error {
+	return &MyError{
 		code: CodeNil,
-		msg:  err,
+		err:  err,
 	}
 }
 
-func NewWithCode(code int, message string) error {
-	return MyError{
+func NewWithCode(code int, err error) error {
+	return &MyError{
 		code: code,
-		msg:  message,
+		err:  err,
 	}
 }
 
@@ -43,7 +52,7 @@ func Exception(msg ...string) error {
 	if len(msg) > 0 {
 		m = msg[0]
 	}
-	return NewWithCode(ResponseCode.Exception, m)
+	return NewWithCode(ResponseCode.Exception, errors.New(m))
 }
 
 func Unauthorized(msg ...string) error {
@@ -51,7 +60,7 @@ func Unauthorized(msg ...string) error {
 	if len(msg) > 0 {
 		m = msg[0]
 	}
-	return NewWithCode(ResponseCode.Unauthorized, m)
+	return NewWithCode(ResponseCode.Unauthorized, errors.New(m))
 }
 
 func Forbidden(msg ...string) error {
@@ -59,7 +68,7 @@ func Forbidden(msg ...string) error {
 	if len(msg) > 0 {
 		m = msg[0]
 	}
-	return NewWithCode(ResponseCode.Forbidden, m)
+	return NewWithCode(ResponseCode.Forbidden, errors.New(m))
 }
 
 func TooManyRequests(msg ...string) error {
@@ -67,7 +76,7 @@ func TooManyRequests(msg ...string) error {
 	if len(msg) > 0 {
 		m = msg[0]
 	}
-	return NewWithCode(ResponseCode.TooManyRequests, m)
+	return NewWithCode(ResponseCode.TooManyRequests, errors.New(m))
 }
 
 func Failure(msg ...string) error {
@@ -75,5 +84,5 @@ func Failure(msg ...string) error {
 	if len(msg) > 0 {
 		m = msg[0]
 	}
-	return NewWithCode(ResponseCode.Failure, m)
+	return NewWithCode(ResponseCode.Failure, errors.New(m))
 }

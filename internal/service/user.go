@@ -26,7 +26,7 @@ func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.Use
 	}
 
 	if _, err := os.Open("a.txt"); err != nil {
-		return res, errors.WithStack(err)
+		return res, gerror.NewWithCode(100, errors.WithStack(err))
 	}
 
 	_, err = single.Do("cache", func() (interface{}, error) {
@@ -44,17 +44,9 @@ func (a *userSrv) List(c *gin.Context, arg goblog.UserListArg) (users goblog.Use
 }
 
 func (a *userSrv) Create(c *gin.Context) {
-	err := gerror.New("订单号不能为空")
-	if err != nil {
-		return
-	}
 
 }
 
 func (a *userSrv) Update(c *gin.Context) {
-	err := gerror.New("订单号不能为空")
-	if err != nil {
-		return
-	}
 
 }

@@ -3,7 +3,6 @@ package api
 import (
 	"github.com/echo-music/go-blog/internal/service"
 	"github.com/echo-music/go-blog/pkg/api/goblog"
-	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
 )
@@ -53,11 +52,6 @@ func (a *userApi) Create(c *gin.Context) {
 }
 
 func (a *userApi) Update(c *gin.Context) {
-	err := gerror.New("用户号不能为空")
 
-	if err != nil {
-		c.Error(err)
-		return
-	}
 	response.Success(c, "修改用户", nil)
 }

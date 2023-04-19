@@ -36,12 +36,19 @@ func Logger() gin.HandlerFunc {
 			zap.Duration("cost", time.Since(start)),
 		}
 		if e := c.Errors.ByType(gin.ErrorTypePrivate); len(e) > 0 {
-			stack := fmt.Sprintf("%+v", e.Last().Err)
+			err := gerror.Stack(e.Last())
+
+			stack := fmt.Sprintf("%+v", err)
 			src := strings.Split(strings.ReplaceAll(stack, "\t", ""), "\n")
-			dst := make([]string, 5)
+			l := len(src)
+			if l > 3 {
+				l = 3
+			}
+			dst := make([]string, l)
 			copy(dst, src)
 
 			code := gerror.Code(e.Last())
+
 			if code == 0 || code == gerror.CodeNil {
 				code = gerror.ResponseCode.Failure
 			}
