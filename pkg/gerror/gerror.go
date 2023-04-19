@@ -1,5 +1,7 @@
 package gerror
 
+import "github.com/pkg/errors"
+
 const (
 	CodeNil = -1
 )
@@ -14,9 +16,11 @@ func (e MyError) Error() string {
 }
 
 func Code(err error) int {
-	if e, ok := err.(MyError); ok {
-		return e.code
+
+	if se := new(MyError); errors.As(err, &se) {
+		return se.code
 	}
+
 	return CodeNil
 }
 

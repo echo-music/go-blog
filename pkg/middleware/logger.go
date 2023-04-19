@@ -3,6 +3,7 @@ package middleware
 import (
 	"bytes"
 	"fmt"
+	"github.com/echo-music/go-blog/pkg/gerror"
 	"github.com/echo-music/go-blog/pkg/known"
 	"github.com/echo-music/go-blog/pkg/response"
 	"github.com/gin-gonic/gin"
@@ -42,7 +43,12 @@ func Logger() gin.HandlerFunc {
 			if gin.Mode() == gin.DebugMode {
 				fmt.Println(stack)
 			} else {
+				code := gerror.Code(e.Last())
+				if code == 0 || code == gerror.CodeNil {
+					code = gerror.ResponseCode.Failure
+				}
 				logContent = append(logContent,
+					zap.Int("code", code),
 					zap.Any("stack", dst),
 				)
 			}
