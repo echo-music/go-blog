@@ -1,7 +1,6 @@
 package logs
 
 import (
-	"fmt"
 	"github.com/echo-music/go-blog/pkg/known"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -95,11 +94,4 @@ func Ctx(c *gin.Context) *zap.Logger {
 		l = l.With(zap.Any(known.XRequestIDKey, requestId))
 	}
 	return l
-}
-
-func ExtractError(err error) string {
-	if err != nil {
-		return fmt.Sprintf("%+v", err)
-	}
-	return ""
 }

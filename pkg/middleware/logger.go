@@ -40,17 +40,17 @@ func Logger() gin.HandlerFunc {
 			src := strings.Split(strings.ReplaceAll(stack, "\t", ""), "\n")
 			dst := make([]string, 5)
 			copy(dst, src)
+
+			code := gerror.Code(e.Last())
+			if code == 0 || code == gerror.CodeNil {
+				code = gerror.ResponseCode.Failure
+			}
+			logContent = append(logContent,
+				zap.Int("code", code),
+				zap.Any("stack", dst),
+			)
 			if gin.Mode() == gin.DebugMode {
 				fmt.Println(stack)
-			} else {
-				code := gerror.Code(e.Last())
-				if code == 0 || code == gerror.CodeNil {
-					code = gerror.ResponseCode.Failure
-				}
-				logContent = append(logContent,
-					zap.Int("code", code),
-					zap.Any("stack", dst),
-				)
 			}
 
 		}
