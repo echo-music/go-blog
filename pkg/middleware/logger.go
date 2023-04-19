@@ -36,14 +36,14 @@ func Logger() gin.HandlerFunc {
 		}
 		if e := c.Errors.ByType(gin.ErrorTypePrivate); len(e) > 0 {
 			stack := fmt.Sprintf("%+v", e.Last().Err)
-			data := strings.Split(strings.ReplaceAll(stack, "\t", ""), "\n")
-			d := make([]string, 5)
-			copy(d, data)
+			src := strings.Split(strings.ReplaceAll(stack, "\t", ""), "\n")
+			dst := make([]string, 5)
+			copy(dst, src)
 			if gin.Mode() == gin.DebugMode {
 				fmt.Println(stack)
 			} else {
 				logContent = append(logContent,
-					zap.Any("stack", d),
+					zap.Any("stack", dst),
 				)
 			}
 
