@@ -1,7 +1,9 @@
 package service
 
 import (
+	"fmt"
 	"github.com/echo-music/go-blog/pkg/api/blog"
+	"github.com/echo-music/go-blog/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/groupcache/singleflight"
 )
@@ -14,6 +16,8 @@ var User userSrv
 var res blog.UserListRet
 
 func (a *userSrv) List(c *gin.Context, arg blog.UserListArg) (users blog.UserListRet, err error) {
+
+	fmt.Println(utils.FinalClientIP(c.Request))
 	if len(res.List) > 0 {
 		users = res
 		return users, nil
