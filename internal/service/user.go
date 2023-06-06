@@ -18,7 +18,6 @@ var res blog.UserListRet
 func (a *userSrv) List(c *gin.Context, arg blog.UserListArg) (users blog.UserListRet, err error) {
 
 	fmt.Println(utils.FinalClientIP(c.Request))
-
 	if len(res.List) > 0 {
 		users = res
 		return users, nil
