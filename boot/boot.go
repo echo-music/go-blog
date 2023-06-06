@@ -44,10 +44,10 @@ func Run() {
 	defer logs.Sync()
 
 	//初始化数据库
-	db.Init(Cfg.Mysql)
+	//db.Init(Cfg.Mysql)
 
 	//初始化redis
-	cache.Init(Cfg.Redis)
+	//cache.Init(Cfg.Redis)
 
 	r := gin.New()
 

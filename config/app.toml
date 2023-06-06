@@ -1,6 +1,6 @@
 [app]
 name = "go_gin"
-port = 8081
+port = 80
 version = "1.0.0"
 mode = "debug"
 

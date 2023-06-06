@@ -1,8 +1,8 @@
 package gerror
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/pkg/errors"
 )
 
 const (

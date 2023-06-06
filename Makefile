@@ -4,7 +4,7 @@ APP_NAME = go-blog
 init:
 	go get github.com/pilu/fresh
 	go install github.com/pilu/fresh
-	go install github.com/swaggo/swag/cmd/swag@latest
+	go install github.com/swaggo/swag/cmd/swag@v1.8.12
 	swag init
 	go mod tidy
 
